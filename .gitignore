@@ -1,0 +1,7 @@
+# ModelSim / Questa simulation outputs
+work/
+transcript
+vsim.wlf
+*.wlf
+modelsim.ini
+*.log
