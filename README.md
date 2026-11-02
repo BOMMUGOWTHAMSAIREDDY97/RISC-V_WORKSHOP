@@ -93,31 +93,62 @@ Sequential half adder circuit combining combinational logic with edge-triggered 
 
 ## 🚀 Simulation & Verification
 
-Each directory contains a self-checking or monitored testbench that can be simulated using ModelSim, QuestaSim, or Icarus Verilog.
+Follow these step-by-step commands in the ModelSim / QuestaSim Transcript console:
 
-### Running with ModelSim / QuestaSim
+### ModelSim / QuestaSim Simulation Commands
 
-```tcl
-# Navigate to the target project directory (e.g. Alu_4bit)
-cd Alu_4bit
+| Step | Command | Description |
+| :---: | :--- | :--- |
+| **01** | `pwd` | Verify current working directory |
+| **02** | `vlib work` | Create the local design library |
+| **03** | `vmap work work` | Map the library as default work library |
+| **04** | `vlog alu4_tb.v alu4.v` | Compile the design and testbench files |
+| **05** | `vsim work.alu4_tb` | Load the testbench for simulation |
+| **06** | `add wave -r *` | Add all signals recursively to waveform window |
+| **07** | `run -all` | Execute the simulation |
+| **08** | `wave zoomfull` | Zoom to fit all waveforms in window |
 
-# Create and map work library
-vlib work
-vmap work work
+---
 
-# Compile design and testbench
-vlog alu4.v alu4_tb.v
+### Running Other Modules in ModelSim
 
-# Run simulation
-vsim -c alu4_tb -do "run -all; quit"
-```
+- **4-Bit Half Adder (`4bit_halfadder/`)**:
+  ```tcl
+  cd 4bit_halfadder
+  pwd
+  vlib work
+  vmap work work
+  vlog testbench.v design.v
+  vsim work.half_adder4_tb
+  add wave -r *
+  run -all
+  wave zoomfull
+  ```
 
-### Running with Icarus Verilog
+- **D Flip-Flop (`D_FlipFlop/`)**:
+  ```tcl
+  cd D_FlipFlop
+  pwd
+  vlib work
+  vmap work work
+  vlog d_flipflop_tb.v d_flipflop.v
+  vsim work.d_flipflop_tb
+  add wave -r *
+  run -all
+  wave zoomfull
+  ```
 
-```bash
-# Example: 4-bit Half Adder
-cd 4bit_halfadder
-iverilog -o sim design.v testbench.v
-vvp sim
-```
+- **Half Adder with DFF (`Half_Adder_DFF/`)**:
+  ```tcl
+  cd Half_Adder_DFF
+  pwd
+  vlib work
+  vmap work work
+  vlog half_adder_dff_tb.v half_adder_dff.v
+  vsim work.half_adder_dff_tb
+  add wave -r *
+  run -all
+  wave zoomfull
+  ```
+
 
