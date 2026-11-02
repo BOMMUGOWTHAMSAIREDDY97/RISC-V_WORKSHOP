@@ -110,7 +110,20 @@ Follow these step-by-step commands in the ModelSim / QuestaSim Transcript consol
 
 ---
 
-### Running Other Modules in ModelSim
+### Running Each Module in ModelSim
+
+- **4-Bit ALU (`Alu_4bit/`)**:
+  ```tcl
+  cd Alu_4bit
+  pwd
+  vlib work
+  vmap work work
+  vlog alu4_tb.v alu4.v
+  vsim work.alu4_tb
+  add wave -r *
+  run -all
+  wave zoomfull
+  ```
 
 - **4-Bit Half Adder (`4bit_halfadder/`)**:
   ```tcl
