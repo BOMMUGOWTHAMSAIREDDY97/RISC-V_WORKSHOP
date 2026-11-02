@@ -1,7 +1,12 @@
-# ModelSim / Questa simulation outputs
+# ModelSim / Questa simulation artifacts
 work/
+**/work/
 transcript
+**/transcript
 vsim.wlf
+**/vsim.wlf
 *.wlf
 modelsim.ini
+**/modelsim.ini
 *.log
+**/log/

@@ -1,20 +1,59 @@
-# 4-Bit Arithmetic Logic Unit (ALU) in Verilog HDL
+# Verilog HDL Digital Design Projects
 
-A 4-bit Arithmetic Logic Unit (ALU) implemented in Verilog HDL supporting arithmetic and bitwise logical operations, accompanied by a comprehensive testbench for simulation and verification using ModelSim / QuestaSim.
-
----
-
-## 📌 Features
-
-- **Data Width**: 4-bit operands (`A`, `B`) and 4-bit result output.
-- **Control**: 3-bit opcode selector.
-- **Status Flags**:
-  - `carry_borrow`: Carry out for Addition (`temp[4]`), Borrow flag for Subtraction (`A < B`).
-  - `zero`: Active-high flag asserted when `result == 4'b0000`.
+A collection of digital logic designs and verification testbenches implemented in Verilog HDL, simulated using ModelSim / QuestaSim.
 
 ---
 
-## ⚙️ Operation Table
+## 📁 Repository Structure
+
+```
+Projects/
+│
+├── 4bit_halfadder/
+│   ├── design.v
+│   └── testbench.v
+│
+├── Alu_4bit/
+│   ├── alu4.v
+│   └── alu4_tb.v
+│
+├── D_FlipFlop/
+│   ├── d_flipflop.v
+│   └── d_flipflop_tb.v
+│
+├── Half_Adder_DFF/
+│   ├── half_adder_dff.v
+│   └── half_adder_dff_tb.v
+│
+└── README.md
+```
+
+---
+
+## 🛠️ Modules Overview
+
+### 1. 4-Bit Half Adder (`4bit_halfadder/`)
+Performs parallel bitwise addition on two 4-bit operands ($A$ and $B$) without taking an incoming carry into account.
+- **Files**: [`design.v`](4bit_halfadder/design.v), [`testbench.v`](4bit_halfadder/testbench.v)
+- **Logic Equations**:
+  - $\text{Sum}[i] = A[i] \oplus B[i]$
+  - $\text{Carry}[i] = A[i] \ \& \ B[i]$
+- **Truth Table (Per-Bit)**:
+
+| $A[i]$ | $B[i]$ | $\text{Sum}[i]$ | $\text{Carry}[i]$ |
+| :---: | :---: | :---: | :---: |
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
+
+---
+
+### 2. 4-Bit Arithmetic Logic Unit (`Alu_4bit/`)
+Performs arithmetic and bitwise logical operations controlled by a 3-bit opcode selector.
+- **Files**: [`alu4.v`](Alu_4bit/alu4.v), [`alu4_tb.v`](Alu_4bit/alu4_tb.v)
+- **Inputs**: 4-bit operands `A`, `B`, 3-bit `opcode`
+- **Outputs**: 4-bit `result`, 1-bit `carry_borrow`, 1-bit `zero` flag
 
 | Opcode (`opcode[2:0]`) | Operation | Description | Flags Affected |
 | :---: | :---: | :--- | :--- |
@@ -27,24 +66,41 @@ A 4-bit Arithmetic Logic Unit (ALU) implemented in Verilog HDL supporting arithm
 
 ---
 
-## 📁 Repository Structure
+### 3. D Flip-Flop (`D_FlipFlop/`)
+Positive-edge triggered D flip-flop with active-high asynchronous reset.
+- **Files**: [`d_flipflop.v`](D_FlipFlop/d_flipflop.v), [`d_flipflop_tb.v`](D_FlipFlop/d_flipflop_tb.v)
+- **Ports**:
+  - `clk`: Clock signal
+  - `rst`: Asynchronous active-high reset
+  - `d`: Data input
+  - `q`: Registered output
+- **Functionality**: When `rst = 1`, `q` is cleared to `0`. On `posedge clk` with `rst = 0`, `q <= d`.
 
-```
-.
-├── alu4.v          # 4-bit ALU module design (Verilog HDL)
-├── alu4_tb.v       # Testbench for functional simulation and verification
-├── .gitignore      # Ignores ModelSim/Questa compilation and simulation artifacts
-└── README.md       # Project documentation
-```
+---
+
+### 4. Half Adder with D Flip-Flop (`Half_Adder_DFF/`)
+Sequential half adder circuit that combines half-adder combinational logic with edge-triggered output registration.
+- **Files**: [`half_adder_dff.v`](Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](Half_Adder_DFF/half_adder_dff_tb.v)
+- **Ports**:
+  - `clk`, `reset`: Clock and asynchronous active-high reset
+  - `a`, `b`: 1-bit operands
+  - `sum`, `carry`: Registered outputs captured on the clock edge
+- **Functionality**:
+  - Combinational: $s = a \oplus b$, $c = a \ \& \ b$
+  - Registered: On clock rising edge, `sum <= s` and `carry <= c`.
 
 ---
 
 ## 🚀 Simulation & Verification
 
-The design can be simulated using ModelSim, QuestaSim, Icarus Verilog, or any standard Verilog simulator.
+Each directory contains a self-checking or monitored testbench that can be simulated using ModelSim, QuestaSim, or Icarus Verilog.
 
-### Running with ModelSim / QuestaSim:
+### Running with ModelSim / QuestaSim
+
 ```tcl
+# Navigate to the target project directory (e.g. Alu_4bit)
+cd Alu_4bit
+
 # Create and map work library
 vlib work
 vmap work work
@@ -56,13 +112,16 @@ vlog alu4.v alu4_tb.v
 vsim -c alu4_tb -do "run -all; quit"
 ```
 
-### Running with Icarus Verilog (open-source alternative):
+### Running with Icarus Verilog
+
 ```bash
-iverilog -o alu_sim alu4.v alu4_tb.v
-vvp alu_sim
+# Example: 4-bit Half Adder
+cd 4bit_halfadder
+iverilog -o sim design.v testbench.v
+vvp sim
 ```
 
 ---
 
 ## 📄 License
-This project is open-source under the MIT License.
+This project is open-source and available under the [MIT License](LICENSE).
