@@ -33,14 +33,14 @@ Projects/
 ## 🛠️ Modules Overview
 
 ### 1. 4-Bit Half Adder (`4bit_halfadder/`)
-Performs parallel bitwise addition on two 4-bit operands ($A$ and $B$) without taking an incoming carry into account.
+Performs parallel bitwise addition on two 4-bit operands (`A` and `B`) without taking an incoming carry into account.
 - **Files**: [`design.v`](4bit_halfadder/design.v), [`testbench.v`](4bit_halfadder/testbench.v)
 - **Logic Equations**:
-  - $\text{Sum}[i] = A[i] \oplus B[i]$
-  - $\text{Carry}[i] = A[i] \ \& \ B[i]$
+  - `Sum[i]   = A[i] ^ B[i]` (Bitwise XOR)
+  - `Carry[i] = A[i] & B[i]` (Bitwise AND)
 - **Truth Table (Per-Bit)**:
 
-| $A[i]$ | $B[i]$ | $\text{Sum}[i]$ | $\text{Carry}[i]$ |
+| `A[i]` | `B[i]` | `Sum[i]` | `Carry[i]` |
 | :---: | :---: | :---: | :---: |
 | 0 | 0 | 0 | 0 |
 | 0 | 1 | 1 | 0 |
@@ -79,15 +79,15 @@ Positive-edge triggered D flip-flop with active-high asynchronous reset.
 ---
 
 ### 4. Half Adder with D Flip-Flop (`Half_Adder_DFF/`)
-Sequential half adder circuit that combines half-adder combinational logic with edge-triggered output registration.
+Sequential half adder circuit combining combinational logic with edge-triggered output registration.
 - **Files**: [`half_adder_dff.v`](Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](Half_Adder_DFF/half_adder_dff_tb.v)
 - **Ports**:
   - `clk`, `reset`: Clock and asynchronous active-high reset
   - `a`, `b`: 1-bit operands
   - `sum`, `carry`: Registered outputs captured on the clock edge
 - **Functionality**:
-  - Combinational: $s = a \oplus b$, $c = a \ \& \ b$
-  - Registered: On clock rising edge, `sum <= s` and `carry <= c`.
+  - Combinational logic: `s = a ^ b`, `c = a & b`
+  - Registered outputs: On rising clock edge (`posedge clk`), `sum <= s` and `carry <= c`. When `reset = 1`, `sum <= 0` and `carry <= 0`.
 
 ---
 
