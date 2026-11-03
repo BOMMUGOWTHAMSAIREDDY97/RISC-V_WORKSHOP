@@ -50,6 +50,13 @@ Projects/
 │   ├── ouput-1_risc2stage.png
 │   └── ouput-2_risc2stage.png
 │
+├── 09_RISC_V_5Stage/
+│   ├── riscv_5stage.v
+│   ├── riscv_5stage_tb.v
+│   ├── output-1_risc_v_5stage.png
+│   ├── output-2_risc_v_5stage.png
+│   └── output-3_risc_v_5stage.png
+│
 └── README.md
 ```
 
@@ -313,6 +320,54 @@ wave zoom full
 ![RISC-V 2-Stage Simulation Waveform 1](08_RISCV_2stage/ouput-1_risc2stage.png)
 
 ![RISC-V 2-Stage Simulation Waveform 2](08_RISCV_2stage/ouput-2_risc2stage.png)
+
+---
+
+### 9. 5-Stage Pipelined 32-Bit RISC-V Processor (`09_RISC_V_5Stage/`)
+A synthesizable 32-bit RISC-V processor implementing the classic 5-stage pipeline architecture with complete data forwarding, hazard detection, and branch flushing units.
+- **Files**: [`riscv_5stage.v`](09_RISC_V_5Stage/riscv_5stage.v), [`riscv_5stage_tb.v`](09_RISC_V_5Stage/riscv_5stage_tb.v)
+- **Pipeline Stages**:
+  - **IF (Instruction Fetch)**: Manages `pc`, fetches 32-bit instructions from `instruction_mem`, and handles branch redirection.
+  - **ID (Instruction Decode / Register Read)**: Decodes opcode, funct3, and funct7, reads operands from 32-entry register file (`registers[0:31]`, `x0 = 0`), and generates sign-extended immediates (`imm_i`, `imm_s`, `imm_b`).
+  - **EX (Execute / Address Calculation)**: Computes arithmetic/logic operations in the ALU, resolves branch condition (`BEQ`), and dynamically selects forwarded operands from later pipeline stages.
+  - **MEM (Memory Access)**: Accesses `data_mem` for load (`LW`) and store (`SW`) operations.
+  - **WB (Write Back)**: Selects between ALU computation result and memory read data to write back to destination register (`rd`).
+- **Hazard Handling & Forwarding**:
+  - **Forwarding Unit**: Eliminates RAW (Read-After-Write) data stalls by forwarding results from `EX/MEM` and `MEM/WB` stages directly into the ALU inputs.
+  - **Hazard Detection Unit**: Detects load-use data hazards and stalls the pipeline by freezing `pc` and `IF/ID`, inserting a bubble into `ID/EX`.
+  - **Branch Flushing**: Flushes `IF/ID` and `ID/EX` pipeline registers with `NOP` (`0x00000013`) upon taken branches.
+- **Supported Instructions**:
+
+| Instruction | Type | Syntax | Operation |
+| :--- | :---: | :--- | :--- |
+| `ADD` | R | `add rd, rs1, rs2` | `rd = rs1 + rs2` |
+| `SUB` | R | `sub rd, rs1, rs2` | `rd = rs1 - rs2` |
+| `AND` | R | `and rd, rs1, rs2` | `rd = rs1 & rs2` |
+| `OR` | R | `or rd, rs1, rs2` | `rd = rs1 \| rs2` |
+| `ADDI` | I | `addi rd, rs1, imm` | `rd = rs1 + imm` |
+| `LW` | I | `lw rd, offset(rs1)` | `rd = data_mem[rs1 + offset]` |
+| `SW` | S | `sw rs2, offset(rs1)` | `data_mem[rs1 + offset] = rs2` |
+| `BEQ` | B | `beq rs1, rs2, offset` | If `rs1 == rs2`, `pc = branch_target` (flushes pipeline with `NOP`) |
+
+#### ModelSim Simulation Commands
+```tcl
+cd 09_RISC_V_5Stage
+pwd
+vlib work
+vmap work work
+vlog riscv_5stage_tb.v riscv_5stage.v
+vsim work.riscv_5stage_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### Simulation Waveforms
+![RISC-V 5-Stage Simulation Waveform 1](09_RISC_V_5Stage/output-1_risc_v_5stage.png)
+
+![RISC-V 5-Stage Simulation Waveform 2](09_RISC_V_5Stage/output-2_risc_v_5stage.png)
+
+![RISC-V 5-Stage Simulation Waveform 3](09_RISC_V_5Stage/output-3_risc_v_5stage.png)
 
 ---
 
