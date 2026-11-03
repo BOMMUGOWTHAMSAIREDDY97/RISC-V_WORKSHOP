@@ -9,42 +9,42 @@ A collection of digital logic designs, state machine controllers, pipelined proc
 ```
 Projects/
 │
-├── Alu_4bit/
+├── 01_Alu_4bit/
 │   ├── alu4.v
 │   ├── alu4_tb.v
 │   └── output_Alu4bit.png
 │
-├── 4bit_halfadder/
+├── 02_4bit_halfadder/
 │   ├── halfadder.v
 │   ├── halfadder_tb.v
 │   └── output_4bithalfadder.png
 │
-├── D_FlipFlop/
+├── 03_D_FlipFlop/
 │   ├── d_flipflop.v
 │   ├── d_flipflop_tb.v
 │   └── output_Dflipflop.png
 │
-├── Half_Adder_DFF/
+├── 04_Half_Adder_DFF/
 │   ├── half_adder_dff.v
 │   ├── half_adder_dff_tb.v
 │   └── output_halfadder_dff.png
 │
-├── 4_Floor_Elevator/
+├── 05_4_Floor_Elevator/
 │   ├── elevator.v
 │   ├── elevator_tb.v
 │   └── output_elevator.png
 │
-├── FSM/
+├── 06_FSM/
 │   ├── washing_machine.v
 │   ├── washing_machine_tb.v
 │   └── output_washing_machine.png
 │
-├── ATM_Controller/
+├── 07_ATM_Controller/
 │   ├── atm_controller.v
 │   ├── atm_controller_tb.v
 │   └── output_ATM.png
 │
-├── RISCV_2stage/
+├── 08_RISCV_2stage/
 │   ├── riscv_2stage.v
 │   ├── tb_riscv_2stage.v
 │   ├── ouput-1_risc2stage.png
@@ -57,9 +57,9 @@ Projects/
 
 ## 🛠️ Modules Overview
 
-### 1. 4-Bit Arithmetic Logic Unit (`Alu_4bit/`)
+### 1. 4-Bit Arithmetic Logic Unit (`01_Alu_4bit/`)
 Performs arithmetic and bitwise logical operations controlled by a 3-bit opcode selector with carry/borrow and zero flag generation.
-- **Files**: [`alu4.v`](Alu_4bit/alu4.v), [`alu4_tb.v`](Alu_4bit/alu4_tb.v)
+- **Files**: [`alu4.v`](01_Alu_4bit/alu4.v), [`alu4_tb.v`](01_Alu_4bit/alu4_tb.v)
 - **Inputs**: 4-bit operands `A`, `B`, 3-bit `opcode`
 - **Outputs**: 4-bit `result`, 1-bit `carry_borrow`, 1-bit `zero` flag
 
@@ -74,7 +74,7 @@ Performs arithmetic and bitwise logical operations controlled by a 3-bit opcode 
 
 #### ModelSim Simulation Commands
 ```tcl
-cd Alu_4bit
+cd 01_Alu_4bit
 pwd
 vlib work
 vmap work work
@@ -86,13 +86,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![ALU 4-bit Simulation Waveform](Alu_4bit/output_Alu4bit.png)
+![ALU 4-bit Simulation Waveform](01_Alu_4bit/output_Alu4bit.png)
 
 ---
 
-### 2. Half Adder (`4bit_halfadder/`)
+### 2. Half Adder (`02_4bit_halfadder/`)
 Implements standard half adder addition on binary inputs (`A` and `B`) generating `Sum` and `Carry` outputs.
-- **Files**: [`halfadder.v`](4bit_halfadder/halfadder.v), [`halfadder_tb.v`](4bit_halfadder/halfadder_tb.v)
+- **Files**: [`halfadder.v`](02_4bit_halfadder/halfadder.v), [`halfadder_tb.v`](02_4bit_halfadder/halfadder_tb.v)
 - **Logic Equations**:
   - `Sum   = A ^ B` (Bitwise XOR)
   - `Carry = A & B` (Bitwise AND)
@@ -107,7 +107,7 @@ Implements standard half adder addition on binary inputs (`A` and `B`) generatin
 
 #### ModelSim Simulation Commands
 ```tcl
-cd 4bit_halfadder
+cd 02_4bit_halfadder
 pwd
 vlib work
 vmap work work
@@ -119,13 +119,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![Half Adder Simulation Waveform](4bit_halfadder/output_4bithalfadder.png)
+![Half Adder Simulation Waveform](02_4bit_halfadder/output_4bithalfadder.png)
 
 ---
 
-### 3. D Flip-Flop (`D_FlipFlop/`)
+### 3. D Flip-Flop (`03_D_FlipFlop/`)
 Positive-edge triggered D flip-flop with active-high asynchronous reset.
-- **Files**: [`d_flipflop.v`](D_FlipFlop/d_flipflop.v), [`d_flipflop_tb.v`](D_FlipFlop/d_flipflop_tb.v)
+- **Files**: [`d_flipflop.v`](03_D_FlipFlop/d_flipflop.v), [`d_flipflop_tb.v`](03_D_FlipFlop/d_flipflop_tb.v)
 - **Ports**:
   - `clk`: Clock signal
   - `rst`: Asynchronous active-high reset
@@ -135,7 +135,7 @@ Positive-edge triggered D flip-flop with active-high asynchronous reset.
 
 #### ModelSim Simulation Commands
 ```tcl
-cd D_FlipFlop
+cd 03_D_FlipFlop
 pwd
 vlib work
 vmap work work
@@ -147,13 +147,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![D Flip-Flop Simulation Waveform](D_FlipFlop/output_Dflipflop.png)
+![D Flip-Flop Simulation Waveform](03_D_FlipFlop/output_Dflipflop.png)
 
 ---
 
-### 4. Half Adder with D Flip-Flop (`Half_Adder_DFF/`)
+### 4. Half Adder with D Flip-Flop (`04_Half_Adder_DFF/`)
 Sequential half adder combining combinational logic with edge-triggered output registration.
-- **Files**: [`half_adder_dff.v`](Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](Half_Adder_DFF/half_adder_dff_tb.v)
+- **Files**: [`half_adder_dff.v`](04_Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](04_Half_Adder_DFF/half_adder_dff_tb.v)
 - **Ports**:
   - `clk`, `reset`: Clock and asynchronous active-high reset
   - `a`, `b`: 1-bit operands
@@ -164,7 +164,7 @@ Sequential half adder combining combinational logic with edge-triggered output r
 
 #### ModelSim Simulation Commands
 ```tcl
-cd Half_Adder_DFF
+cd 04_Half_Adder_DFF
 pwd
 vlib work
 vmap work work
@@ -176,13 +176,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![Half Adder with DFF Simulation Waveform](Half_Adder_DFF/output_halfadder_dff.png)
+![Half Adder with DFF Simulation Waveform](04_Half_Adder_DFF/output_halfadder_dff.png)
 
 ---
 
-### 5. 4-Floor Elevator Controller (`4_Floor_Elevator/`)
+### 5. 4-Floor Elevator Controller (`05_4_Floor_Elevator/`)
 Finite State Machine (FSM) based controller for a 4-floor passenger elevator with motor direction, door timing control, and busy signaling.
-- **Files**: [`elevator.v`](4_Floor_Elevator/elevator.v), [`elevator_tb.v`](4_Floor_Elevator/elevator_tb.v)
+- **Files**: [`elevator.v`](05_4_Floor_Elevator/elevator.v), [`elevator_tb.v`](05_4_Floor_Elevator/elevator_tb.v)
 - **Inputs**: `clk`, `reset`, `request_valid`, `request_floor[1:0]` (Floors 0 to 3)
 - **Outputs**: `current_floor[1:0]`, `motor_up`, `motor_down`, `door_open`, `busy`
 - **FSM States**:
@@ -193,7 +193,7 @@ Finite State Machine (FSM) based controller for a 4-floor passenger elevator wit
 
 #### ModelSim Simulation Commands
 ```tcl
-cd 4_Floor_Elevator
+cd 05_4_Floor_Elevator
 pwd
 vlib work
 vmap work work
@@ -205,13 +205,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![Elevator Simulation Waveform](4_Floor_Elevator/output_elevator.png)
+![Elevator Simulation Waveform](05_4_Floor_Elevator/output_elevator.png)
 
 ---
 
-### 6. Washing Machine Controller (`FSM/`)
+### 6. Washing Machine Controller (`06_FSM/`)
 Synthesizable Moore Finite State Machine controller managing a multi-stage automated laundry sequence with sensor handshaking.
-- **Files**: [`washing_machine.v`](FSM/washing_machine.v), [`washing_machine_tb.v`](FSM/washing_machine_tb.v)
+- **Files**: [`washing_machine.v`](06_FSM/washing_machine.v), [`washing_machine_tb.v`](06_FSM/washing_machine_tb.v)
 - **Inputs**: `clk`, `reset`, `start`, `water_full`, `wash_done`, `drain_done`, `rinse_done`, `spin_done`
 - **Outputs**: `water_valve`, `wash_motor`, `drain_pump`, `spin_motor`, `cycle_done`
 - **Cycle Stages & FSM Sequence**:
@@ -228,7 +228,7 @@ Synthesizable Moore Finite State Machine controller managing a multi-stage autom
 
 #### ModelSim Simulation Commands
 ```tcl
-cd FSM
+cd 06_FSM
 pwd
 vlib work
 vmap work work
@@ -240,13 +240,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![Washing Machine Simulation Waveform](FSM/output_washing_machine.png)
+![Washing Machine Simulation Waveform](06_FSM/output_washing_machine.png)
 
 ---
 
-### 7. ATM Controller (`ATM_Controller/`)
+### 7. ATM Controller (`07_ATM_Controller/`)
 Comprehensive Finite State Machine modeling an Automated Teller Machine (ATM) controller verifying card insertion, 16-bit PIN validation, balance checks, cash dispensing, and error handling.
-- **Files**: [`atm_controller.v`](ATM_Controller/atm_controller.v), [`atm_controller_tb.v`](ATM_Controller/atm_controller_tb.v)
+- **Files**: [`atm_controller.v`](07_ATM_Controller/atm_controller.v), [`atm_controller_tb.v`](07_ATM_Controller/atm_controller_tb.v)
 - **Inputs**: `clk`, `reset`, `card_insert`, `pin[15:0]`, `pin_enter`, `withdraw`, `amount[7:0]`, `balance[7:0]`
 - **Outputs**: `cash_dispense`, `card_return`, `pin_error`, `insufficient_balance`, `transaction_done`
 - **FSM States**:
@@ -261,7 +261,7 @@ Comprehensive Finite State Machine modeling an Automated Teller Machine (ATM) co
 
 #### ModelSim Simulation Commands
 ```tcl
-cd ATM_Controller
+cd 07_ATM_Controller
 pwd
 vlib work
 vmap work work
@@ -273,13 +273,13 @@ wave zoom full
 ```
 
 #### Simulation Waveform
-![ATM Controller Simulation Waveform](ATM_Controller/output_ATM.png)
+![ATM Controller Simulation Waveform](07_ATM_Controller/output_ATM.png)
 
 ---
 
-### 8. 2-Stage Pipelined 32-Bit RISC-V Processor (`RISCV_2stage/`)
+### 8. 2-Stage Pipelined 32-Bit RISC-V Processor (`08_RISCV_2stage/`)
 A synthesizable 32-bit RISC-V processor implementing a 2-stage pipeline with separate Harvard-style instruction and data memories.
-- **Files**: [`riscv_2stage.v`](RISCV_2stage/riscv_2stage.v), [`tb_riscv_2stage.v`](RISCV_2stage/tb_riscv_2stage.v)
+- **Files**: [`riscv_2stage.v`](08_RISCV_2stage/riscv_2stage.v), [`tb_riscv_2stage.v`](08_RISCV_2stage/tb_riscv_2stage.v)
 - **Pipeline Architecture**:
   - **Stage 1 (IF - Instruction Fetch)**: Fetches 32-bit instructions from `instruction_mem` addressed by the Program Counter (`pc`). Handles branch redirection and flushes pipeline with `NOP` on taken branches.
   - **Stage 2 (EX - Decode, Execute, Memory & Write-Back)**: Decodes instructions, reads source registers from a 32-entry register file (`registers[0:31]`, `x0 = 0`), performs arithmetic/logical operations in the ALU, accesses `data_mem`, and writes results back to the destination register (`rd`).
@@ -298,7 +298,7 @@ A synthesizable 32-bit RISC-V processor implementing a 2-stage pipeline with sep
 
 #### ModelSim Simulation Commands
 ```tcl
-cd RISCV_2stage
+cd 08_RISCV_2stage
 pwd
 vlib work
 vmap work work
@@ -310,9 +310,9 @@ wave zoom full
 ```
 
 #### Simulation Waveforms
-![RISC-V 2-Stage Simulation Waveform 1](RISCV_2stage/ouput-1_risc2stage.png)
+![RISC-V 2-Stage Simulation Waveform 1](08_RISCV_2stage/ouput-1_risc2stage.png)
 
-![RISC-V 2-Stage Simulation Waveform 2](RISCV_2stage/ouput-2_risc2stage.png)
+![RISC-V 2-Stage Simulation Waveform 2](08_RISCV_2stage/ouput-2_risc2stage.png)
 
 ---
 
