@@ -9,40 +9,40 @@ A collection of digital logic designs, state machine controllers, pipelined proc
 ```
 Projects/
 │
-├── 4bit_halfadder/
-│   ├── halfadder.v
-│   ├── halfadder_tb.v
-│   └── output_4bithalfadder.png
-│
-├── 4_Floor_Elevator/
-│   ├── elevator.v
-│   ├── elevator_tb.v
-│   └── output_elevator.png
-│
 ├── Alu_4bit/
 │   ├── alu4.v
 │   ├── alu4_tb.v
 │   └── output_Alu4bit.png
 │
-├── ATM_Controller/
-│   ├── atm_controller.v
-│   ├── atm_controller_tb.v
-│   └── output_ATM.png
+├── 4bit_halfadder/
+│   ├── halfadder.v
+│   ├── halfadder_tb.v
+│   └── output_4bithalfadder.png
 │
 ├── D_FlipFlop/
 │   ├── d_flipflop.v
 │   ├── d_flipflop_tb.v
 │   └── output_Dflipflop.png
 │
+├── Half_Adder_DFF/
+│   ├── half_adder_dff.v
+│   ├── half_adder_dff_tb.v
+│   └── output_halfadder_dff.png
+│
+├── 4_Floor_Elevator/
+│   ├── elevator.v
+│   ├── elevator_tb.v
+│   └── output_elevator.png
+│
 ├── FSM/
 │   ├── washing_machine.v
 │   ├── washing_machine_tb.v
 │   └── output_washing_machine.png
 │
-├── Half_Adder_DFF/
-│   ├── half_adder_dff.v
-│   ├── half_adder_dff_tb.v
-│   └── output_halfadder_dff.png
+├── ATM_Controller/
+│   ├── atm_controller.v
+│   ├── atm_controller_tb.v
+│   └── output_ATM.png
 │
 ├── RISCV_2stage/
 │   ├── riscv_2stage.v
@@ -57,69 +57,7 @@ Projects/
 
 ## 🛠️ Modules Overview
 
-### 1. Half Adder (`4bit_halfadder/`)
-Implements standard half adder addition on binary inputs (`A` and `B`) generating `Sum` and `Carry` outputs.
-- **Files**: [`halfadder.v`](4bit_halfadder/halfadder.v), [`halfadder_tb.v`](4bit_halfadder/halfadder_tb.v)
-- **Logic Equations**:
-  - `Sum   = A ^ B` (Bitwise XOR)
-  - `Carry = A & B` (Bitwise AND)
-- **Truth Table**:
-
-| `A` | `B` | `Sum` | `Carry` |
-| :---: | :---: | :---: | :---: |
-| 0 | 0 | 0 | 0 |
-| 0 | 1 | 1 | 0 |
-| 1 | 0 | 1 | 0 |
-| 1 | 1 | 0 | 1 |
-
-#### ModelSim Simulation Commands
-```tcl
-cd 4bit_halfadder
-pwd
-vlib work
-vmap work work
-vlog halfadder_tb.v halfadder.v
-vsim work.halfadder_tb
-add wave -r *
-run -all
-wave zoom full
-```
-
-#### Simulation Waveform
-![Half Adder Simulation Waveform](4bit_halfadder/output_4bithalfadder.png)
-
----
-
-### 2. 4-Floor Elevator Controller (`4_Floor_Elevator/`)
-Finite State Machine (FSM) based controller for a 4-floor passenger elevator with motor direction, door timing control, and busy signaling.
-- **Files**: [`elevator.v`](4_Floor_Elevator/elevator.v), [`elevator_tb.v`](4_Floor_Elevator/elevator_tb.v)
-- **Inputs**: `clk`, `reset`, `request_valid`, `request_floor[1:0]` (Floors 0 to 3)
-- **Outputs**: `current_floor[1:0]`, `motor_up`, `motor_down`, `door_open`, `busy`
-- **FSM States**:
-  - `IDLE (00)`: Evaluates target floor against current floor upon `request_valid`.
-  - `UP (01)`: Asserts `motor_up`, increments floor on each clock cycle until reaching target floor.
-  - `DOWN (10)`: Asserts `motor_down`, decrements floor on each clock cycle until reaching target floor.
-  - `DOOR (11)`: Asserts `door_open`, holds for door countdown cycles before returning to `IDLE`.
-
-#### ModelSim Simulation Commands
-```tcl
-cd 4_Floor_Elevator
-pwd
-vlib work
-vmap work work
-vlog elevator_tb.v elevator.v
-vsim work.elevator_tb
-add wave -r *
-run -all
-wave zoom full
-```
-
-#### Simulation Waveform
-![Elevator Simulation Waveform](4_Floor_Elevator/output_elevator.png)
-
----
-
-### 3. 4-Bit Arithmetic Logic Unit (`Alu_4bit/`)
+### 1. 4-Bit Arithmetic Logic Unit (`Alu_4bit/`)
 Performs arithmetic and bitwise logical operations controlled by a 3-bit opcode selector with carry/borrow and zero flag generation.
 - **Files**: [`alu4.v`](Alu_4bit/alu4.v), [`alu4_tb.v`](Alu_4bit/alu4_tb.v)
 - **Inputs**: 4-bit operands `A`, `B`, 3-bit `opcode`
@@ -152,40 +90,40 @@ wave zoom full
 
 ---
 
-### 4. ATM Controller (`ATM_Controller/`)
-Comprehensive Finite State Machine modeling an Automated Teller Machine (ATM) controller verifying card insertion, 16-bit PIN validation, balance checks, cash dispensing, and error handling.
-- **Files**: [`atm_controller.v`](ATM_Controller/atm_controller.v), [`atm_controller_tb.v`](ATM_Controller/atm_controller_tb.v)
-- **Inputs**: `clk`, `reset`, `card_insert`, `pin[15:0]`, `pin_enter`, `withdraw`, `amount[7:0]`, `balance[7:0]`
-- **Outputs**: `cash_dispense`, `card_return`, `pin_error`, `insufficient_balance`, `transaction_done`
-- **FSM States**:
-  - `IDLE (000)`: Waits for `card_insert`.
-  - `PIN (001)`: Awaits user PIN input (`pin_enter`).
-  - `VERIFY (010)`: Authenticates PIN (validates against stored PIN `1234`). Branches to `MENU` on success or `ERROR` on failure.
-  - `MENU (011)`: Awaits user transaction selection (`withdraw`).
-  - `CHECK (100)`: Validates withdrawal `amount <= balance`.
-  - `DISPENSE (101)`: Asserts `cash_dispense = 1`.
-  - `DONE (110)`: Asserts `card_return = 1` and `transaction_done = 1`, then returns to `IDLE`.
-  - `ERROR (111)`: Flags `pin_error` or `insufficient_balance`, asserts `card_return = 1`, and resets to `IDLE`.
+### 2. Half Adder (`4bit_halfadder/`)
+Implements standard half adder addition on binary inputs (`A` and `B`) generating `Sum` and `Carry` outputs.
+- **Files**: [`halfadder.v`](4bit_halfadder/halfadder.v), [`halfadder_tb.v`](4bit_halfadder/halfadder_tb.v)
+- **Logic Equations**:
+  - `Sum   = A ^ B` (Bitwise XOR)
+  - `Carry = A & B` (Bitwise AND)
+- **Truth Table**:
+
+| `A` | `B` | `Sum` | `Carry` |
+| :---: | :---: | :---: | :---: |
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
 
 #### ModelSim Simulation Commands
 ```tcl
-cd ATM_Controller
+cd 4bit_halfadder
 pwd
 vlib work
 vmap work work
-vlog atm_controller_tb.v atm_controller.v
-vsim work.atm_controller_tb
+vlog halfadder_tb.v halfadder.v
+vsim work.halfadder_tb
 add wave -r *
 run -all
 wave zoom full
 ```
 
 #### Simulation Waveform
-![ATM Controller Simulation Waveform](ATM_Controller/output_ATM.png)
+![Half Adder Simulation Waveform](4bit_halfadder/output_4bithalfadder.png)
 
 ---
 
-### 5. D Flip-Flop (`D_FlipFlop/`)
+### 3. D Flip-Flop (`D_FlipFlop/`)
 Positive-edge triggered D flip-flop with active-high asynchronous reset.
 - **Files**: [`d_flipflop.v`](D_FlipFlop/d_flipflop.v), [`d_flipflop_tb.v`](D_FlipFlop/d_flipflop_tb.v)
 - **Ports**:
@@ -210,6 +148,64 @@ wave zoom full
 
 #### Simulation Waveform
 ![D Flip-Flop Simulation Waveform](D_FlipFlop/output_Dflipflop.png)
+
+---
+
+### 4. Half Adder with D Flip-Flop (`Half_Adder_DFF/`)
+Sequential half adder combining combinational logic with edge-triggered output registration.
+- **Files**: [`half_adder_dff.v`](Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](Half_Adder_DFF/half_adder_dff_tb.v)
+- **Ports**:
+  - `clk`, `reset`: Clock and asynchronous active-high reset
+  - `a`, `b`: 1-bit operands
+  - `sum`, `carry`: Registered outputs captured on the clock edge
+- **Functionality**:
+  - Combinational logic: `s = a ^ b`, `c = a & b`
+  - Registered outputs: On rising clock edge (`posedge clk`), `sum <= s` and `carry <= c`. When `reset = 1`, `sum <= 0` and `carry <= 0`.
+
+#### ModelSim Simulation Commands
+```tcl
+cd Half_Adder_DFF
+pwd
+vlib work
+vmap work work
+vlog half_adder_dff_tb.v half_adder_dff.v
+vsim work.half_adder_dff_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### Simulation Waveform
+![Half Adder with DFF Simulation Waveform](Half_Adder_DFF/output_halfadder_dff.png)
+
+---
+
+### 5. 4-Floor Elevator Controller (`4_Floor_Elevator/`)
+Finite State Machine (FSM) based controller for a 4-floor passenger elevator with motor direction, door timing control, and busy signaling.
+- **Files**: [`elevator.v`](4_Floor_Elevator/elevator.v), [`elevator_tb.v`](4_Floor_Elevator/elevator_tb.v)
+- **Inputs**: `clk`, `reset`, `request_valid`, `request_floor[1:0]` (Floors 0 to 3)
+- **Outputs**: `current_floor[1:0]`, `motor_up`, `motor_down`, `door_open`, `busy`
+- **FSM States**:
+  - `IDLE (00)`: Evaluates target floor against current floor upon `request_valid`.
+  - `UP (01)`: Asserts `motor_up`, increments floor on each clock cycle until reaching target floor.
+  - `DOWN (10)`: Asserts `motor_down`, decrements floor on each clock cycle until reaching target floor.
+  - `DOOR (11)`: Asserts `door_open`, holds for door countdown cycles before returning to `IDLE`.
+
+#### ModelSim Simulation Commands
+```tcl
+cd 4_Floor_Elevator
+pwd
+vlib work
+vmap work work
+vlog elevator_tb.v elevator.v
+vsim work.elevator_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### Simulation Waveform
+![Elevator Simulation Waveform](4_Floor_Elevator/output_elevator.png)
 
 ---
 
@@ -248,32 +244,36 @@ wave zoom full
 
 ---
 
-### 7. Half Adder with D Flip-Flop (`Half_Adder_DFF/`)
-Sequential half adder combining combinational logic with edge-triggered output registration.
-- **Files**: [`half_adder_dff.v`](Half_Adder_DFF/half_adder_dff.v), [`half_adder_dff_tb.v`](Half_Adder_DFF/half_adder_dff_tb.v)
-- **Ports**:
-  - `clk`, `reset`: Clock and asynchronous active-high reset
-  - `a`, `b`: 1-bit operands
-  - `sum`, `carry`: Registered outputs captured on the clock edge
-- **Functionality**:
-  - Combinational logic: `s = a ^ b`, `c = a & b`
-  - Registered outputs: On rising clock edge (`posedge clk`), `sum <= s` and `carry <= c`. When `reset = 1`, `sum <= 0` and `carry <= 0`.
+### 7. ATM Controller (`ATM_Controller/`)
+Comprehensive Finite State Machine modeling an Automated Teller Machine (ATM) controller verifying card insertion, 16-bit PIN validation, balance checks, cash dispensing, and error handling.
+- **Files**: [`atm_controller.v`](ATM_Controller/atm_controller.v), [`atm_controller_tb.v`](ATM_Controller/atm_controller_tb.v)
+- **Inputs**: `clk`, `reset`, `card_insert`, `pin[15:0]`, `pin_enter`, `withdraw`, `amount[7:0]`, `balance[7:0]`
+- **Outputs**: `cash_dispense`, `card_return`, `pin_error`, `insufficient_balance`, `transaction_done`
+- **FSM States**:
+  - `IDLE (000)`: Waits for `card_insert`.
+  - `PIN (001)`: Awaits user PIN input (`pin_enter`).
+  - `VERIFY (010)`: Authenticates PIN (validates against stored PIN `1234`). Branches to `MENU` on success or `ERROR` on failure.
+  - `MENU (011)`: Awaits user transaction selection (`withdraw`).
+  - `CHECK (100)`: Validates withdrawal `amount <= balance`.
+  - `DISPENSE (101)`: Asserts `cash_dispense = 1`.
+  - `DONE (110)`: Asserts `card_return = 1` and `transaction_done = 1`, then returns to `IDLE`.
+  - `ERROR (111)`: Flags `pin_error` or `insufficient_balance`, asserts `card_return = 1`, and resets to `IDLE`.
 
 #### ModelSim Simulation Commands
 ```tcl
-cd Half_Adder_DFF
+cd ATM_Controller
 pwd
 vlib work
 vmap work work
-vlog half_adder_dff_tb.v half_adder_dff.v
-vsim work.half_adder_dff_tb
+vlog atm_controller_tb.v atm_controller.v
+vsim work.atm_controller_tb
 add wave -r *
 run -all
 wave zoom full
 ```
 
 #### Simulation Waveform
-![Half Adder with DFF Simulation Waveform](Half_Adder_DFF/output_halfadder_dff.png)
+![ATM Controller Simulation Waveform](ATM_Controller/output_ATM.png)
 
 ---
 
