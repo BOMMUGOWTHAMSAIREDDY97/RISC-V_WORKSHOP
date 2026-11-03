@@ -1,6 +1,6 @@
 # Verilog HDL Digital Design Projects
 
-A collection of digital logic designs, state machine controllers, and verification testbenches implemented in Verilog HDL, accompanied by functional simulation waveforms from ModelSim / QuestaSim.
+A collection of digital logic designs, state machine controllers, pipelined processor architectures, and verification testbenches implemented in Verilog HDL, accompanied by functional simulation waveforms from ModelSim / QuestaSim.
 
 ---
 
@@ -43,6 +43,12 @@ Projects/
 │   ├── half_adder_dff.v
 │   ├── half_adder_dff_tb.v
 │   └── output_halfadder_dff.png
+│
+├── RISCV_2stage/
+│   ├── riscv_2stage.v
+│   ├── tb_riscv_2stage.v
+│   ├── ouput-1_risc2stage.png
+│   └── ouput-2_risc2stage.png
 │
 └── README.md
 ```
@@ -180,6 +186,32 @@ Sequential half adder combining combinational logic with edge-triggered output r
 
 ---
 
+### 8. 2-Stage Pipelined 32-Bit RISC-V Processor (`RISCV_2stage/`)
+A synthesizable 32-bit RISC-V processor implementing a 2-stage pipeline with separate Harvard-style instruction and data memories.
+- **Files**: [`riscv_2stage.v`](RISCV_2stage/riscv_2stage.v), [`tb_riscv_2stage.v`](RISCV_2stage/tb_riscv_2stage.v)
+- **Pipeline Architecture**:
+  - **Stage 1 (IF - Instruction Fetch)**: Fetches 32-bit instructions from `instruction_mem` addressed by the Program Counter (`pc`). Handles branch redirection and flushes pipeline with `NOP` on taken branches.
+  - **Stage 2 (EX - Decode, Execute, Memory & Write-Back)**: Decodes instructions, reads source registers from a 32-entry register file (`registers[0:31]`, `x0 = 0`), performs arithmetic/logical operations in the ALU, accesses `data_mem`, and writes results back to the destination register (`rd`).
+- **Supported Instructions**:
+
+| Instruction | Type | Syntax | Operation |
+| :--- | :---: | :--- | :--- |
+| `ADD` | R | `add rd, rs1, rs2` | `rd = rs1 + rs2` |
+| `SUB` | R | `sub rd, rs1, rs2` | `rd = rs1 - rs2` |
+| `AND` | R | `and rd, rs1, rs2` | `rd = rs1 & rs2` |
+| `OR` | R | `or rd, rs1, rs2` | `rd = rs1 \| rs2` |
+| `ADDI` | I | `addi rd, rs1, imm` | `rd = rs1 + imm` |
+| `LW` | I | `lw rd, offset(rs1)` | `rd = data_mem[rs1 + offset]` |
+| `SW` | S | `sw rs2, offset(rs1)` | `data_mem[rs1 + offset] = rs2` |
+| `BEQ` | B | `beq rs1, rs2, offset` | If `rs1 == rs2`, `pc = pc + offset` (flushes pipeline with `NOP`) |
+
+#### Simulation Waveforms
+![RISC-V 2-Stage Simulation Waveform 1](RISCV_2stage/ouput-1_risc2stage.png)
+
+![RISC-V 2-Stage Simulation Waveform 2](RISCV_2stage/ouput-2_risc2stage.png)
+
+---
+
 ## 🚀 Simulation & Verification
 
 Follow these step-by-step commands in the ModelSim / QuestaSim Transcript console:
@@ -200,6 +232,19 @@ Follow these step-by-step commands in the ModelSim / QuestaSim Transcript consol
 ---
 
 ### Running Each Module in ModelSim
+
+- **2-Stage RISC-V Processor (`RISCV_2stage/`)**:
+  ```tcl
+  cd RISCV_2stage
+  pwd
+  vlib work
+  vmap work work
+  vlog tb_riscv_2stage.v riscv_2stage.v
+  vsim work.tb_riscv_2stage
+  add wave -r *
+  run -all
+  wave zoomfull
+  ```
 
 - **Half Adder (`4bit_halfadder/`)**:
   ```tcl
