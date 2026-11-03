@@ -82,7 +82,7 @@ vlog halfadder_tb.v halfadder.v
 vsim work.halfadder_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -111,7 +111,7 @@ vlog elevator_tb.v elevator.v
 vsim work.elevator_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -144,7 +144,7 @@ vlog alu4_tb.v alu4.v
 vsim work.alu4_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -177,7 +177,7 @@ vlog atm_controller_tb.v atm_controller.v
 vsim work.atm_controller_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -205,7 +205,7 @@ vlog d_flipflop_tb.v d_flipflop.v
 vsim work.d_flipflop_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -240,7 +240,7 @@ vlog washing_machine_tb.v washing_machine.v
 vsim work.washing_machine_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -269,7 +269,7 @@ vlog half_adder_dff_tb.v half_adder_dff.v
 vsim work.half_adder_dff_tb
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveform
@@ -306,7 +306,7 @@ vlog tb_riscv_2stage.v riscv_2stage.v
 vsim work.tb_riscv_2stage
 add wave -r *
 run -all
-wave zoomfull
+wave zoom full
 ```
 
 #### Simulation Waveforms
@@ -329,4 +329,4 @@ wave zoomfull
 | **05** | `vsim work.<testbench_module>` | Load testbench for simulation |
 | **06** | `add wave -r *` | Add all signals recursively to waveform window |
 | **07** | `run -all` | Execute simulation run |
-| **08** | `wave zoomfull` | Zoom to fit all waveforms in window |
+| **08** | `wave zoom full` | Zoom to fit all waveforms in window |
