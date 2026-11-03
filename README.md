@@ -72,6 +72,19 @@ Implements standard half adder addition on binary inputs (`A` and `B`) generatin
 | 1 | 0 | 1 | 0 |
 | 1 | 1 | 0 | 1 |
 
+#### ModelSim Simulation Commands
+```tcl
+cd 4bit_halfadder
+pwd
+vlib work
+vmap work work
+vlog halfadder_tb.v halfadder.v
+vsim work.halfadder_tb
+add wave -r *
+run -all
+wave zoomfull
+```
+
 #### Simulation Waveform
 ![Half Adder Simulation Waveform](4bit_halfadder/output_4bithalfadder.png)
 
@@ -87,6 +100,19 @@ Finite State Machine (FSM) based controller for a 4-floor passenger elevator wit
   - `UP (01)`: Asserts `motor_up`, increments floor on each clock cycle until reaching target floor.
   - `DOWN (10)`: Asserts `motor_down`, decrements floor on each clock cycle until reaching target floor.
   - `DOOR (11)`: Asserts `door_open`, holds for door countdown cycles before returning to `IDLE`.
+
+#### ModelSim Simulation Commands
+```tcl
+cd 4_Floor_Elevator
+pwd
+vlib work
+vmap work work
+vlog elevator_tb.v elevator.v
+vsim work.elevator_tb
+add wave -r *
+run -all
+wave zoomfull
+```
 
 #### Simulation Waveform
 ![Elevator Simulation Waveform](4_Floor_Elevator/output_elevator.png)
@@ -108,6 +134,19 @@ Performs arithmetic and bitwise logical operations controlled by a 3-bit opcode 
 | `100` | **XOR** | Bitwise XOR: `result = A ^ B` | `zero` |
 | Others | **Default** | Clears output (`4'b0000`) | `zero` |
 
+#### ModelSim Simulation Commands
+```tcl
+cd Alu_4bit
+pwd
+vlib work
+vmap work work
+vlog alu4_tb.v alu4.v
+vsim work.alu4_tb
+add wave -r *
+run -all
+wave zoomfull
+```
+
 #### Simulation Waveform
 ![ALU 4-bit Simulation Waveform](Alu_4bit/output_Alu4bit.png)
 
@@ -128,6 +167,19 @@ Comprehensive Finite State Machine modeling an Automated Teller Machine (ATM) co
   - `DONE (110)`: Asserts `card_return = 1` and `transaction_done = 1`, then returns to `IDLE`.
   - `ERROR (111)`: Flags `pin_error` or `insufficient_balance`, asserts `card_return = 1`, and resets to `IDLE`.
 
+#### ModelSim Simulation Commands
+```tcl
+cd ATM_Controller
+pwd
+vlib work
+vmap work work
+vlog atm_controller_tb.v atm_controller.v
+vsim work.atm_controller_tb
+add wave -r *
+run -all
+wave zoomfull
+```
+
 #### Simulation Waveform
 ![ATM Controller Simulation Waveform](ATM_Controller/output_ATM.png)
 
@@ -142,6 +194,19 @@ Positive-edge triggered D flip-flop with active-high asynchronous reset.
   - `d`: Data input
   - `q`: Registered output
 - **Functionality**: When `rst = 1`, `q` is cleared to `0`. On `posedge clk` with `rst = 0`, `q <= d`.
+
+#### ModelSim Simulation Commands
+```tcl
+cd D_FlipFlop
+pwd
+vlib work
+vmap work work
+vlog d_flipflop_tb.v d_flipflop.v
+vsim work.d_flipflop_tb
+add wave -r *
+run -all
+wave zoomfull
+```
 
 #### Simulation Waveform
 ![D Flip-Flop Simulation Waveform](D_FlipFlop/output_Dflipflop.png)
@@ -165,6 +230,19 @@ Synthesizable Moore Finite State Machine controller managing a multi-stage autom
 | `SPIN` | `101` | `spin_done = 1` | `spin_motor = 1` |
 | `DONE` | `110` | `start = 1` (restart) | `cycle_done = 1` |
 
+#### ModelSim Simulation Commands
+```tcl
+cd FSM
+pwd
+vlib work
+vmap work work
+vlog washing_machine_tb.v washing_machine.v
+vsim work.washing_machine_tb
+add wave -r *
+run -all
+wave zoomfull
+```
+
 #### Simulation Waveform
 ![Washing Machine Simulation Waveform](FSM/output_washing_machine.png)
 
@@ -180,6 +258,19 @@ Sequential half adder combining combinational logic with edge-triggered output r
 - **Functionality**:
   - Combinational logic: `s = a ^ b`, `c = a & b`
   - Registered outputs: On rising clock edge (`posedge clk`), `sum <= s` and `carry <= c`. When `reset = 1`, `sum <= 0` and `carry <= 0`.
+
+#### ModelSim Simulation Commands
+```tcl
+cd Half_Adder_DFF
+pwd
+vlib work
+vmap work work
+vlog half_adder_dff_tb.v half_adder_dff.v
+vsim work.half_adder_dff_tb
+add wave -r *
+run -all
+wave zoomfull
+```
 
 #### Simulation Waveform
 ![Half Adder with DFF Simulation Waveform](Half_Adder_DFF/output_halfadder_dff.png)
@@ -205,6 +296,19 @@ A synthesizable 32-bit RISC-V processor implementing a 2-stage pipeline with sep
 | `SW` | S | `sw rs2, offset(rs1)` | `data_mem[rs1 + offset] = rs2` |
 | `BEQ` | B | `beq rs1, rs2, offset` | If `rs1 == rs2`, `pc = pc + offset` (flushes pipeline with `NOP`) |
 
+#### ModelSim Simulation Commands
+```tcl
+cd RISCV_2stage
+pwd
+vlib work
+vmap work work
+vlog tb_riscv_2stage.v riscv_2stage.v
+vsim work.tb_riscv_2stage
+add wave -r *
+run -all
+wave zoomfull
+```
+
 #### Simulation Waveforms
 ![RISC-V 2-Stage Simulation Waveform 1](RISCV_2stage/ouput-1_risc2stage.png)
 
@@ -212,11 +316,9 @@ A synthesizable 32-bit RISC-V processor implementing a 2-stage pipeline with sep
 
 ---
 
-## 🚀 Simulation & Verification
+## 🚀 Simulation & Verification Reference
 
-Follow these step-by-step commands in the ModelSim / QuestaSim Transcript console:
-
-### ModelSim / QuestaSim Simulation Commands
+### General ModelSim / QuestaSim Transcript Workflow
 
 | Step | Command | Description |
 | :---: | :--- | :--- |
@@ -228,111 +330,3 @@ Follow these step-by-step commands in the ModelSim / QuestaSim Transcript consol
 | **06** | `add wave -r *` | Add all signals recursively to waveform window |
 | **07** | `run -all` | Execute simulation run |
 | **08** | `wave zoomfull` | Zoom to fit all waveforms in window |
-
----
-
-### Running Each Module in ModelSim
-
-- **2-Stage RISC-V Processor (`RISCV_2stage/`)**:
-  ```tcl
-  cd RISCV_2stage
-  pwd
-  vlib work
-  vmap work work
-  vlog tb_riscv_2stage.v riscv_2stage.v
-  vsim work.tb_riscv_2stage
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **Half Adder (`4bit_halfadder/`)**:
-  ```tcl
-  cd 4bit_halfadder
-  pwd
-  vlib work
-  vmap work work
-  vlog halfadder_tb.v halfadder.v
-  vsim work.halfadder_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **4-Floor Elevator Controller (`4_Floor_Elevator/`)**:
-  ```tcl
-  cd 4_Floor_Elevator
-  pwd
-  vlib work
-  vmap work work
-  vlog elevator_tb.v elevator.v
-  vsim work.elevator_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **4-Bit ALU (`Alu_4bit/`)**:
-  ```tcl
-  cd Alu_4bit
-  pwd
-  vlib work
-  vmap work work
-  vlog alu4_tb.v alu4.v
-  vsim work.alu4_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **ATM Controller (`ATM_Controller/`)**:
-  ```tcl
-  cd ATM_Controller
-  pwd
-  vlib work
-  vmap work work
-  vlog atm_controller_tb.v atm_controller.v
-  vsim work.atm_controller_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **D Flip-Flop (`D_FlipFlop/`)**:
-  ```tcl
-  cd D_FlipFlop
-  pwd
-  vlib work
-  vmap work work
-  vlog d_flipflop_tb.v d_flipflop.v
-  vsim work.d_flipflop_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **Washing Machine Controller (`FSM/`)**:
-  ```tcl
-  cd FSM
-  pwd
-  vlib work
-  vmap work work
-  vlog washing_machine_tb.v washing_machine.v
-  vsim work.washing_machine_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
-
-- **Half Adder with DFF (`Half_Adder_DFF/`)**:
-  ```tcl
-  cd Half_Adder_DFF
-  pwd
-  vlib work
-  vmap work work
-  vlog half_adder_dff_tb.v half_adder_dff.v
-  vsim work.half_adder_dff_tb
-  add wave -r *
-  run -all
-  wave zoomfull
-  ```
