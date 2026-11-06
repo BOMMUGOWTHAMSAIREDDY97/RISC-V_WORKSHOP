@@ -60,9 +60,5 @@ cd day4
 do run_day4.do
 ```
 
-To view pipeline stage waveforms with full zoom:
-```tcl
-vsim -view waves/4_pipeline_simulation.wlf
-wave zoom full
-```
+All simulation waveforms are captured as `.png` images in the `waves/` folder (e.g. `waves/4 (1).png` through `waves/4 (5).png`), displayed inline in the main `README.md`.
 

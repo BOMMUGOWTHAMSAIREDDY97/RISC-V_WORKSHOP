@@ -84,8 +84,12 @@ Target:                  IF   ID   EX  MEM   WB
 
 ## 5. Formula Summary
 
-$$CPI_{pipeline} = 1.0 + \frac{\text{Load-Use Stalls} + 2 \times \text{Branch Flushes}}{\text{Instructions Retired}}$$
+```
+CPI_pipeline = 1.0 + (Load-Use Stalls + 2 x Branch Flushes) / Instructions_Retired
+```
 
 For this run:
-$$CPI_{effective} = 1.0 + \frac{1 + 2 \times 1}{7} \approx 1.43 \text{ (excluding startup)}$$
+```
+CPI_effective = 1.0 + (1 + 2x1) / 7  ≈  1.43  (excluding startup)
+```
 

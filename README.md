@@ -27,7 +27,7 @@ Projects/
 ├── day1/                      ← Workshop Day 1: Combinational & Sequential Blocks
 │   ├── src/                   ← alu.v, counter.v, shifter.v, regfile.v ...
 │   ├── tb/                    ← Self-checking testbenches
-│   └── waves/                 ← .wlf waveform files
+│   └── waves/                 ← Waveform screenshot outputs
 │
 ├── day2/                      ← Workshop Day 2: FSM Controllers & Memory
 │   ├── src/                   ← seq_moore.v, fifo.v, atm.v, arbiter.v ...
@@ -1280,4 +1280,4 @@ wave zoom full
 - **Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
 - **Known Issues:** **None.** All design modules compile with 0 errors and all self-checking testbenches execute with **0 FAIL** messages.
 - **Total Test Checks:** 1,688+ assertions evaluated and 100% PASSED.
-- **Waveforms:** Stored both as interactive `.wlf` datasets and `.png` screenshots in `dayX/waves/`.
+- **Waveforms:** Stored as `.png` screenshots in `dayX/waves/` and displayed inline across all activity sections.

@@ -46,9 +46,6 @@ cd day3
 do run_day3.do
 ```
 
-To view the execution waveforms with full zoom:
-```tcl
-vsim -view waves/3_cpu_simulation.wlf
-wave zoom full
-```
+To view waveform screenshots:
+All simulation waveforms are captured as `.png` images in `waves/` (e.g. `waves/3 (1).png`).
 

@@ -63,9 +63,6 @@ cd day2
 do run_day2.do
 ```
 
-To view individual waveforms with full zoom:
-```tcl
-vsim -view waves/2_1_seq.wlf
-wave zoom full
-```
+To view waveform screenshots:
+All simulation waveforms are captured as `.png` images in `waves/` (e.g. `waves/2.1.png`).
 
