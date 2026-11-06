@@ -713,12 +713,21 @@ wave zoom full
 
 ---
 
-### Completion Checklist
+### 9. Daily Completion Checklist (Workbook Section 9)
 
-- [x] Day 1: All 8 activities — 1,582 / 1,582 test assertions PASSED
-- [x] Day 2: All 8 activities — 106 / 106 test assertions PASSED
-- [x] Day 3: RV32I CPU — 3 programs verified (Sum=55, Fib[8], MaxArray=78)
-- [x] Day 4: 5-Stage Pipeline — 4 / 4 self-checks PASSED (forwarding + stall + flush)
-- [x] All waveforms generated in `dayX/waves/*.wlf`
-- [x] All tech notes and reports completed in `report/`
-- [x] Repository pushed to `https://github.com/BOMMUGOWTHAMSAIREDDY97/RISC-V_WORKSHOP.git`
+| Day | Core activities (x.1 to x.4) | Additional (at least 2) | Waveforms saved | Git commit pushed |
+| :--- | :---: | :---: | :---: | :---: |
+| **Day 1** | [x] Completed (1.1 – 1.4) | [x] Completed (1.5 – 1.8) | [x] Saved (`day1/waves/`) | [x] Pushed |
+| **Day 2** | [x] Completed (2.1 – 2.4) | [x] Completed (2.5 – 2.8) | [x] Saved (`day2/waves/`) | [x] Pushed |
+| **Day 3** | [x] Completed (3.1 – 3.4) | [x] Completed (3.5 – 3.8) | [x] Saved (`day3/waves/`) | [x] Pushed |
+| **Day 4** | [x] Completed (4.1 – 4.4) | [x] Completed (4.5 – 4.8) | [x] Saved (`day4/waves/`) | [x] Pushed |
+
+---
+
+### 10. Verification Summary & Known Issues
+
+- **Student:** Bommu Gowtham Sai Reddy
+- **Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+- **Known Issues:** **None.** All design modules compile with 0 errors and all self-checking testbenches execute with **0 FAIL** messages.
+- **Total Test Checks:** 1,688+ assertions evaluated and 100% PASSED.
+- **Waveforms:** Stored both as interactive `.wlf` datasets and `.png` screenshots in `dayX/waves/`.
