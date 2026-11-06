@@ -1,5 +1,9 @@
 # Verilog HDL Digital Design Projects
 
+> **🎓 Class Done ✅** — Verilog RTL Design & RISC-V Processor Development (4-Day Workshop)  
+> **Student:** Bommu Gowtham Sai Reddy &nbsp;|&nbsp; **Trainer:** Yuvaraj Seenipandi — Infoziant | Kalasalingam University  
+> **Status:** All 4 Days Completed — 1,688+ test assertions PASSED across Day 1–Day 4
+
 A collection of digital logic designs, state machine controllers, pipelined processor architectures, and verification testbenches implemented in Verilog HDL, accompanied by functional simulation waveforms from ModelSim / QuestaSim.
 
 ---
@@ -9,54 +13,37 @@ A collection of digital logic designs, state machine controllers, pipelined proc
 ```
 Projects/
 │
-├── 01_Alu_4bit/
-│   ├── alu4.v
-│   ├── alu4_tb.v
-│   └── output_Alu4bit.png
+├── 01_Alu_4bit/              ← 4-bit ALU
+├── 02_4bit_halfadder/        ← Half Adder
+├── 03_D_FlipFlop/            ← D Flip-Flop
+├── 04_Half_Adder_DFF/        ← Half Adder with DFF
+├── 05_4_Floor_Elevator/      ← Elevator FSM Controller
+├── 06_FSM/                   ← Washing Machine FSM
+├── 07_ATM_Controller/        ← ATM Controller FSM
+├── 08_RISCV_2stage/          ← 2-Stage Pipelined RV32I Processor
+├── 09_RISC_V_5Stage/         ← 5-Stage Pipelined RV32I Processor
 │
-├── 02_4bit_halfadder/
-│   ├── halfadder.v
-│   ├── halfadder_tb.v
-│   └── output_4bithalfadder.png
+├── day1/                     ← Workshop Day 1: Combinational & Sequential Blocks
+│   ├── src/                  ← alu.v, counter.v, shifter.v, regfile.v ...
+│   ├── tb/                   ← Self-checking testbenches
+│   └── waves/                ← .wlf waveform files
 │
-├── 03_D_FlipFlop/
-│   ├── d_flipflop.v
-│   ├── d_flipflop_tb.v
-│   └── output_Dflipflop.png
+├── day2/                     ← Workshop Day 2: FSM Controllers & Memory
+│   ├── src/                  ← seq_moore.v, fifo.v, atm.v, arbiter.v ...
+│   ├── tb/
+│   └── waves/
 │
-├── 04_Half_Adder_DFF/
-│   ├── half_adder_dff.v
-│   ├── half_adder_dff_tb.v
-│   └── output_halfadder_dff.png
+├── day3/                     ← Workshop Day 3: Single-Cycle RV32I CPU
+│   ├── src/                  ← cpu.v, program1_sum.hex, program2_fib.hex ...
+│   ├── tb/
+│   └── waves/
 │
-├── 05_4_Floor_Elevator/
-│   ├── elevator.v
-│   ├── elevator_tb.v
-│   └── output_elevator.png
+├── day4/                     ← Workshop Day 4: 5-Stage Pipelined RV32I
+│   ├── src/                  ← riscv_5stage.v, forwarding_unit.v, hazard_unit.v
+│   ├── tb/
+│   └── waves/
 │
-├── 06_FSM/
-│   ├── washing_machine.v
-│   ├── washing_machine_tb.v
-│   └── output_washing_machine.png
-│
-├── 07_ATM_Controller/
-│   ├── atm_controller.v
-│   ├── atm_controller_tb.v
-│   └── output_ATM.png
-│
-├── 08_RISCV_2stage/
-│   ├── riscv_2stage.v
-│   ├── tb_riscv_2stage.v
-│   ├── ouput-1_risc2stage.png
-│   └── ouput-2_risc2stage.png
-│
-├── 09_RISC_V_5Stage/
-│   ├── riscv_5stage.v
-│   ├── riscv_5stage_tb.v
-│   ├── output-1_risc_v_5stage.png
-│   ├── output-2_risc_v_5stage.png
-│   └── output-3_risc_v_5stage.png
-│
+├── report/                   ← Workshop tech notes & design review reports
 └── README.md
 ```
 
@@ -392,7 +379,8 @@ wave zoom full
 ## 🎓 Workshop Assignment: Verilog RTL Design & RISC-V Processor Development (4-Day)
 
 **Trainer:** Yuvaraj Seenipandi — Infoziant | Kalasalingam University  
-**Student:** Bommu Gowtham Sai Reddy
+**Student:** Bommu Gowtham Sai Reddy  
+**Result:** ✅ Class Done — All 4 Days Completed
 
 ---
 
