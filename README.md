@@ -409,11 +409,99 @@ wave zoom full
 | 1.7 | `shiftreg.v`, `lfsr.v` | Universal Shift Register + 8-bit Maximal-Length LFSR (255 states) | 6 PASSED |
 | 1.8 | `debounce.v`, `edge_detect.v` | Counter Debouncer + 2-Stage Synchronizer Edge Detector | 6 PASSED |
 
+#### 1.1 — Parameterized ALU
 ```tcl
 cd day1
-do run_day1.do
-# View individual waveforms:
-vsim -view waves/1_1_alu.wlf
+vlib work
+vmap work work
+vlog src/alu.v tb/alu_tb.v
+vsim work.alu_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.2 — Up/Down Counter
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/counter.v tb/counter_tb.v
+vsim work.counter_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.3 — Barrel Shifter
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/shifter.v tb/shifter_tb.v
+vsim work.shifter_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.4 — Register File
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/regfile.v tb/regfile_tb.v
+vsim work.regfile_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.5 — Ripple-Carry Adder/Subtractor
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/full_adder.v src/adder_sub.v tb/adder_sub_tb.v
+vsim work.adder_sub_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.6 — Priority Encoder & Decoder
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/encoder.v src/decoder.v tb/encoder_decoder_tb.v
+vsim work.encoder_decoder_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.7 — LFSR & Universal Shift Register
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/shiftreg.v src/lfsr.v tb/shiftreg_lfsr_tb.v
+vsim work.shiftreg_lfsr_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 1.8 — Debouncer & Edge Detector
+```tcl
+cd day1
+vlib work
+vmap work work
+vlog src/debounce.v src/edge_detect.v tb/debounce_edge_tb.v
+vsim work.debounce_edge_tb
+add wave -r *
+run -all
 wave zoom full
 ```
 
@@ -432,10 +520,91 @@ wave zoom full
 | 2.7 | `arbiter.v` | 4-Way Round-Robin Arbiter with rotating priority pointer | 10 PASSED |
 | 2.8 | `ram.v`, `watchdog.v` | 64x32 Synchronous RAM + Auto-Reload Watchdog Timer | 23 PASSED |
 
+#### 2.1 — Sequence Detector (Moore & Mealy)
 ```tcl
 cd day2
-do run_day2.do
-vsim -view waves/2_3_fifo.wlf
+vlib work
+vmap work work
+vlog src/seq_moore.v src/seq_mealy.v tb/seq_tb.v
+vsim work.seq_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.2 — Vending Machine FSM
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/vending.v tb/vending_tb.v
+vsim work.vending_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.3 — Synchronous FIFO (16×8)
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/fifo.v tb/fifo_tb.v
+vsim work.fifo_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.4 — FSM Design Review
+> 📄 Theory report only — no simulation required.  
+> See [`report/review_note_2_4.md`](../report/review_note_2_4.md) — FSM encoding (Binary/One-Hot/Gray), Moore vs Mealy trade-offs, CDC FIFO with Gray code pointers.
+
+#### 2.5 — Traffic Light Controller
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/traffic_light.v tb/traffic_light_tb.v
+vsim work.traffic_light_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.6 — ATM Controller FSM
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/atm.v tb/atm_tb.v
+vsim work.atm_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.7 — Round-Robin Arbiter
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/arbiter.v tb/arbiter_tb.v
+vsim work.arbiter_tb
+add wave -r *
+run -all
+wave zoom full
+```
+
+#### 2.8 — RAM & Watchdog Timer
+```tcl
+cd day2
+vlib work
+vmap work work
+vlog src/ram.v src/watchdog.v tb/ram_watchdog_tb.v
+vsim work.ram_watchdog_tb
+add wave -r *
+run -all
 wave zoom full
 ```
 
@@ -452,12 +621,28 @@ wave zoom full
 | 3.7 | `report/instruction_coverage.md` | RV32I instruction coverage matrix & corner case table | Completed |
 | 3.8 | `report/bughunt_notes.md` | RTL bug-hunt: x0 overwrite, imm bit-scramble, SRA/signed, BLT | Completed |
 
+#### 3.1 / 3.2 / 3.3 / 3.5 / 3.6 — Full RV32I Single-Cycle CPU
+> Activities 3.1, 3.2, 3.5, 3.6 all simulate through the same `cpu.v` + `cpu_tb.v`.  
+> The testbench runs all 3 programs: Sum(1..10)=55, Fibonacci first 8, Array Max=78.
 ```tcl
 cd day3
-do run_day3.do
-vsim -view waves/3_cpu_simulation.wlf
+vlib work
+vmap work work
+vlog src/cpu.v tb/cpu_tb.v
+vsim work.cpu_tb
+add wave -r *
+run -all
 wave zoom full
 ```
+
+#### 3.4 — Waveform Analysis
+> 📄 Report only — See [`report/waveform_analysis_3_4.md`](../report/waveform_analysis_3_4.md)
+
+#### 3.7 — Instruction Coverage
+> 📄 Report only — See [`report/instruction_coverage.md`](../report/instruction_coverage.md)
+
+#### 3.8 — Bug Hunt Notes
+> 📄 Report only — See [`report/bughunt_notes.md`](../report/bughunt_notes.md)
 
 ---
 
@@ -466,19 +651,35 @@ wave zoom full
 | Activity | Module / File | Description | Tests |
 | :--- | :--- | :--- | :---: |
 | 4.1 | `forwarding_unit.v`, `riscv_5stage.v` | 5-Stage Pipeline + EX/MEM & MEM/WB Forwarding Unit | 4 PASSED |
-| 4.1 | `hazard_unit.v` | Load-Use Hazard Detection with stall bubble insertion | Verified |
-| 4.2 | Integrated | Branch flush on taken BEQ — flush IF+ID stages | Verified |
+| 4.2 | `hazard_unit.v` | Load-Use Hazard Detection with stall bubble insertion | Verified |
 | 4.3 | `report/cpi_comparison.md` | CPI Analysis: single-cycle vs. pipeline + penalty formula | Completed |
 | 4.5 | `report/hazard_waveform_4_5.md` | Waveform trace of load-use stall and branch flush timing | Completed |
-| 4.6 | `riscv_5stage.v` | Hardware performance counters: cycles, instret, stalls, flushes | Verified |
+| 4.6 | `riscv_5stage.v` | Branch flush on taken BEQ — flush IF+ID stages | Verified |
+| 4.7 | `riscv_5stage.v` | Hardware performance counters: cycles, instret, stalls, flushes | Verified |
 | 4.8 | `report/architecture_diagram_4_8.md` | Pipeline datapath diagram + hazard resolution summary table | Completed |
 
+#### 4.1 / 4.2 / 4.6 / 4.7 — Full 5-Stage Pipeline
+> Activities 4.1, 4.2, 4.6, 4.7 all simulate through the same pipeline files.  
+> Single testbench tests forwarding, load-use stalls, branch flush, and performance counters.
 ```tcl
 cd day4
-do run_day4.do
-vsim -view waves/4_pipeline_simulation.wlf
+vlib work
+vmap work work
+vlog src/forwarding_unit.v src/hazard_unit.v src/riscv_5stage.v tb/riscv_5stage_tb.v
+vsim work.riscv_5stage_tb
+add wave -r *
+run -all
 wave zoom full
 ```
+
+#### 4.3 — CPI Comparison
+> 📄 Report only — See [`report/cpi_comparison.md`](../report/cpi_comparison.md)
+
+#### 4.5 — Hazard Waveform Analysis
+> 📄 Report only — See [`report/hazard_waveform_4_5.md`](../report/hazard_waveform_4_5.md)
+
+#### 4.8 — Architecture Diagram
+> 📄 Report only — See [`report/architecture_diagram_4_8.md`](../report/architecture_diagram_4_8.md)
 
 ---
 
