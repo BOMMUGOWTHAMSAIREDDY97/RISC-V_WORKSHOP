@@ -408,11 +408,11 @@ A synthesizable, parameterized ALU supporting 8 core arithmetic and bitwise logi
 - **Outputs**: `alu_out[WIDTH-1:0]`, `zero`, `negative`, `carry`, `overflow`
 
 ##### Design Theory & Implementation
-The ALU is implemented as a purely combinational block evaluated using a single `always @(*)` construct. Arithmetic addition and subtraction utilize an extended `[WIDTH:0]` internal register `ext_result` to capture the bit-$WIDTH$ carry-out without truncation.
+The ALU is implemented as a purely combinational block evaluated using a single `always @(*)` construct. Arithmetic addition and subtraction utilize an extended `[WIDTH:0]` internal register `ext_result` to capture the bit-`WIDTH` carry-out without truncation.
 - **Carry Flag**: Generated from `ext_result[WIDTH]` during unsigned addition and unsigned subtraction (borrow).
 - **Signed Overflow Flag**: Evaluated using 2's complement sign-bit comparison:
-  $$\text{Overflow}_{\text{ADD}} = (a[\text{MSB}] == b[\text{MSB}]) \land (\text{alu\_out}[\text{MSB}] \ne a[\text{MSB}])$$
-  $$\text{Overflow}_{\text{SUB}} = (a[\text{MSB}] \ne b[\text{MSB}]) \land (\text{alu\_out}[\text{MSB}] \ne a[\text{MSB}])$$
+  - `Overflow_ADD = (a[31] == b[31]) && (alu_out[31] != a[31])`
+  - `Overflow_SUB = (a[31] != b[31]) && (alu_out[31] != a[31])`
 - **Zero & Negative Flags**: Continuous assignments `zero = (alu_out == 0)` and `negative = alu_out[WIDTH-1]`.
 
 ##### Supported Operations
@@ -428,7 +428,7 @@ The ALU is implemented as a purely combinational block evaluated using a single 
 | `0111` | **SRL** | Shift Right Logical: `alu_out = a >> b[4:0]` | `zero` |
 
 ##### Verification Strategy & Results
-- **Vectors Tested**: 27 targeted test vectors covering positive/negative operands, zero operands, signed boundary transitions (`0x7FFFFFFF + 1 = 0x80000000` asserting overflow), arithmetic shift amounts $0$ through $31$, and sign-extension verification.
+- **Vectors Tested**: 27 targeted test vectors covering positive/negative operands, zero operands, signed boundary transitions (`0x7FFFFFFF + 1 = 0x80000000` asserting overflow), arithmetic shift amounts 0 through 31, and sign-extension verification.
 - **Self-Checking Status**: **27 / 27 test vectors PASSED (0 FAIL)**.
 
 ##### ModelSim Simulation Commands
@@ -445,7 +445,7 @@ wave zoom full
 ```
 
 ##### Simulation Waveform & Analysis
-The waveform confirms correct arithmetic transitions, zero-flag assertion upon result `0x00000000`, negative-flag activation upon MSB bit $31 = 1$, and single-cycle flag updates across all 8 ALU opcode selections.
+The waveform confirms correct arithmetic transitions, zero-flag assertion upon result `0x00000000`, negative-flag activation upon MSB bit 31 = 1, and single-cycle flag updates across all 8 ALU opcode selections.
 ![1.1 ALU Waveform](day1/1.1.png)
 
 ---
@@ -464,7 +464,7 @@ The counter uses a synchronous registered process clocked on `posedge clk`. To p
 4. **Hold**: When `enable = 0`, state maintains its previous value with zero glitching.
 
 ##### Verification Strategy & Results
-- **Scenarios Verified**: Synchronous reset from non-zero state, rollover wrap-around (`0xFF` $\rightarrow$ `0x00` in up-count mode, and `0x00` $\rightarrow$ `0xFF` in down-count mode), parallel load of arbitrary patterns, and count-inhibit when `enable = 0`.
+- **Scenarios Verified**: Synchronous reset from non-zero state, rollover wrap-around (`0xFF` -> `0x00` in up-count mode, and `0x00` -> `0xFF` in down-count mode), parallel load of arbitrary patterns, and count-inhibit when `enable = 0`.
 - **Self-Checking Status**: **15 / 15 test phases PASSED (0 FAIL)**.
 
 ##### ModelSim Simulation Commands
@@ -493,7 +493,7 @@ A combinatorial 32-bit logarithmic barrel shifter capable of performing logical 
 - **Outputs**: `data_out[31:0]`
 
 ##### Architecture & Shifter Multiplexer Stages
-The logarithmic barrel shifter replaces iterative serial shifting with a 5-stage cascading 2-to-1 multiplexer matrix, achieving constant $O(\log_2 N)$ propagation delay:
+The logarithmic barrel shifter replaces iterative serial shifting with a 5-stage cascading 2-to-1 multiplexer matrix, achieving constant `O(log2(N))` propagation delay:
 - **Stage 0 (`shamt[0] = 1`)**: Shift by 1 bit position.
 - **Stage 1 (`shamt[1] = 1`)**: Shift by 2 bit positions.
 - **Stage 2 (`shamt[2] = 1`)**: Shift by 4 bit positions.
@@ -502,7 +502,7 @@ The logarithmic barrel shifter replaces iterative serial shifting with a 5-stage
 - **Sign Bit Preservation**: In Arithmetic Right Shift (`SRA`, `shift_type = 2'b10`), the vacant upper bit positions are filled by replicating `data_in[31]` instead of injecting zeros, preserving signed 2's complement values.
 
 ##### Verification Strategy & Results
-- **Test Matrix**: Exhaustive verification across all 32 shift distances ($0$ to $31$) for SLL, SRL, and SRA using positive, negative, and alternating bit patterns against an independent algorithmic reference model.
+- **Test Matrix**: Exhaustive verification across all 32 shift distances (0 to 31) for SLL, SRL, and SRA using positive, negative, and alternating bit patterns against an independent algorithmic reference model.
 - **Self-Checking Status**: **480 / 480 test assertions PASSED (0 FAIL)**.
 
 ##### ModelSim Simulation Commands
@@ -567,9 +567,9 @@ An 8-bit ripple-carry arithmetic unit constructed structurally from 1-bit full a
 
 ##### Design Theory & Structural Topology
 - **Full Adder Interconnect**: Instantiates 8 instances of `full_adder` interconnected by an internal 9-bit carry bus `carry_chain[8:0]`.
-- **Subtraction Mechanism**: 2's complement subtraction $A - B = A + \sim B + 1$ is implemented without extra hardware by conditionally inverting input $B$ using bitwise XOR (`b_mod = b ^ {8{mode}}`) and driving `carry_chain[0] = mode`.
+- **Subtraction Mechanism**: 2's complement subtraction `A - B = A + ~B + 1` is implemented without extra hardware by conditionally inverting input `B` using bitwise XOR (`b_mod = b ^ {8{mode}}`) and driving `carry_chain[0] = mode`.
 - **Signed Overflow Detection**: Detected by comparing the carry-in and carry-out of the most significant bit:
-  $$\text{Overflow} = \text{carry\_chain}[7] \oplus \text{carry\_chain}[8]$$
+  - `overflow = carry_chain[7] ^ carry_chain[8]`
 
 ##### Verification Strategy & Results
 - **Exhaustive Simulation**: Evaluated against Verilog golden behavioral operators (`+` and `-`) across 256 addition operations and 256 subtraction operations covering maximum positive (`+127`), maximum negative (`-128`), and zero corner cases.
@@ -609,7 +609,7 @@ Combinational encoding and decoding building blocks. The priority encoder detect
 - **Decoder Logic**: Active-high binary decoder output `out = enable ? (1 << in) : 8'b00000000`.
 
 ##### Verification Strategy & Results
-- **Test Matrix**: Exhaustive scan across all $2^8 = 256$ input patterns for both encoder variants verifying zero-difference output equivalence alongside all 8 active-high decoder channels.
+- **Test Matrix**: Exhaustive scan across all 256 input patterns for both encoder variants verifying zero-difference output equivalence alongside all 8 active-high decoder channels.
 - **Self-Checking Status**: **272 / 272 checks PASSED (0 FAIL)**.
 
 ##### ModelSim Simulation Commands
@@ -638,8 +638,8 @@ Universal shift register supporting bidirectional shifting and parallel load alo
 - **Shift Register Inputs/Outputs**: `clk`, `reset`, `mode[1:0]`, `d_in[7:0]`, `s_in_left`, `s_in_right`, `q_out[7:0]`
 
 ##### Mathematical Theory & Polynomial Selection
-- **LFSR Characteristic Polynomial**: $P(x) = x^8 + x^6 + x^5 + x^4 + 1$ (Fibonacci configuration with feedback taps at bits 7, 5, 4, and 3).
-- **Maximal-Length Sequence**: Generates a repeating pseudo-random sequence of $2^8 - 1 = 255$ clock cycles before repeating the initial non-zero seed. Includes hardware protection to prevent seed lockup into the absorbing all-zero state (`8'h00`).
+- **LFSR Characteristic Polynomial**: `P(x) = x^8 + x^6 + x^5 + x^4 + 1` (Fibonacci configuration with feedback taps at bits 7, 5, 4, and 3).
+- **Maximal-Length Sequence**: Generates a repeating pseudo-random sequence of 255 clock cycles before repeating the initial non-zero seed. Includes hardware protection to prevent seed lockup into the absorbing all-zero state (`8'h00`).
 - **Universal Shift Register Control**: `mode = 2'b00` (Hold), `2'b01` (Shift Left with serial fill), `2'b10` (Shift Right with serial fill), `2'b11` (Synchronous Parallel Load).
 
 ##### Verification Strategy & Results
@@ -674,7 +674,7 @@ Hardware button interfacing block combining a counter-based debouncing filter to
 ##### Hardware Debounce & Edge Extraction Theory
 - **Glitch Filtering**: Mechanical switches exhibit 5–20 ms of high-frequency contact chatter. The debouncer samples input through a 2-stage DFF synchronizer to eliminate metastability, followed by an integrating counter. The output only toggles when the input signal remains continuously stable for `THRESHOLD` consecutive clock cycles.
 - **Edge Strobe Extraction**: The clean signal passes through an additional register stage; a rising-edge pulse is generated using the condition:
-  $$\text{edge\_pulse} = \text{clean\_signal} \land \neg(\text{clean\_signal\_delayed})$$
+  - `edge_pulse = clean_signal && !clean_signal_delayed`
 
 ##### Verification Strategy & Results
 - **Glitch Rejection Testing**: Testbench injects rapid erratic chatter (alternating 0 and 1 pulses of 1-3 clock cycle duration) followed by a settled steady state, verifying that no false edge pulses are emitted during the bounce period.
@@ -767,9 +767,9 @@ Synthesizable Moore state machine controlling a vending sequence for an item pri
   - `S_10 (010)`: Balance = ₹10.
   - `S_15 (011)`: Balance = ₹15.
 - **Dispense & Change Logic**:
-  - Depositing ₹20 in `S_0` $\rightarrow$ Immediate dispense with `change = 0`.
-  - Depositing ₹10 in `S_10` $\rightarrow$ Total = ₹20 $\rightarrow$ Dispense with `change = 0`.
-  - Depositing ₹10 in `S_15` $\rightarrow$ Total = ₹25 $\rightarrow$ Dispense with `change = 5` (single 5 INR coin return).
+  - Depositing ₹20 in `S_0` -> Immediate dispense with `change = 0`.
+  - Depositing ₹10 in `S_10` -> Total = ₹20 -> Dispense with `change = 0`.
+  - Depositing ₹10 in `S_15` -> Total = ₹25 -> Dispense with `change = 5` (single 5 INR coin return).
 
 ##### Verification Strategy & Results
 - **Scenarios Verified**: Exact payment (four ₹5 coins, two ₹10 coins, one ₹20 coin), overpayment triggering change return (three ₹5 coins + one ₹10 coin = ₹25), and mid-transaction cancellation.
@@ -804,8 +804,8 @@ Dual-pointer synchronous FIFO memory with circular buffer addressing, simultaneo
 ##### Memory Structure & Pointer Mathematics
 - **Circular Buffer**: Implemented using an internal memory array `mem [0:15]`.
 - **Full vs. Empty Disambiguation**: Employs an internal 5-bit pointer format (`[ADDR_WIDTH:0]`) where the MSB acts as a revolution wrap-around flag:
-  $$\text{empty} = (\text{wptr} == \text{rptr})$$
-  $$\text{full} = (\text{wptr}[\text{MSB}] \ne \text{rptr}[\text{MSB}]) \land (\text{wptr}[\text{MSB}-1:0] == \text{rptr}[\text{MSB}-1:0])$$
+  - `empty = (wptr == rptr)`
+  - `full  = (wptr[4] != rptr[4]) && (wptr[3:0] == rptr[3:0])`
 - **Simultaneous Read & Write**: When `wr_en` and `rd_en` are asserted in the same clock cycle on a non-full, non-empty FIFO, both operations proceed concurrently without altering `count`.
 
 ##### Verification Strategy & Results
@@ -835,9 +835,9 @@ Waveform demonstrates monotonic increment of `count` during write bursts, clean 
 > 📄 **Technical Report**: Comprehensive theoretical and RTL architectural review document.  
 > **Report File**: [`report/review_note_2_4.md`](report/review_note_2_4.md)  
 > **Detailed Review Sections**:
-> 1. **State Encoding Metrics**: Binary ($\lceil \log_2 N \rceil$ FFs, high decode logic) vs. One-Hot ($N$ FFs, single-gate decode, ideal for FPGAs with abundant flip-flops) vs. Gray Code (single-bit transitions minimizing dynamic CMOS switching power).
+> 1. **State Encoding Metrics**: Binary (log2(N) FFs, high decode logic) vs. One-Hot (N FFs, single-gate decode, ideal for FPGAs with abundant flip-flops) vs. Gray Code (single-bit transitions minimizing dynamic CMOS switching power).
 > 2. **Moore vs. Mealy Timing**: Output glitches in Mealy machines during input transitions, timing closure implications, and output registration retiming methods.
-> 3. **Asynchronous CDC FIFO Architecture**: Dual independent clock domains ($clk_{wr}$, $clk_{rd}$), pointer serialization via Gray code conversion, 2-stage flip-flop synchronizers, and MTBF reliability analysis.
+> 3. **Asynchronous CDC FIFO Architecture**: Dual independent clock domains (clk_wr, clk_rd), pointer serialization via Gray code conversion, 2-stage flip-flop synchronizers, and MTBF reliability analysis.
 
 ---
 
@@ -910,7 +910,7 @@ wave zoom full
 ```
 
 ##### Simulation Waveform & Analysis
-Waveform captures successful PIN authentication, balance inquiry returning valid initial balance (`$1000`), deduction to `$700` upon `$300` withdrawal, and immediate rejection of overdraft requests.
+Waveform captures successful PIN authentication, balance inquiry returning valid initial balance (`1000`), deduction to `700` upon `300` withdrawal, and immediate rejection of overdraft requests.
 ![2.6 ATM Controller Waveform](day2/2.6.png)
 
 ---
@@ -923,12 +923,12 @@ Fairness-guaranteed round-robin bus arbiter serving 4 simultaneous requesters wi
 
 ##### Arbitration Token Rotation Logic
 - **Fair Allocation**: An internal 2-bit pointer `priority_ptr` designates the highest-priority master channel.
-- **Token Update**: When channel $k$ receives a grant, `priority_ptr` automatically advances to $(k + 1) \pmod 4$ on the subsequent clock cycle:
-  - If `priority_ptr = 0`: priority order is $0 \rightarrow 1 \rightarrow 2 \rightarrow 3$.
-  - If `priority_ptr = 1`: priority order is $1 \rightarrow 2 \rightarrow 3 \rightarrow 0$.
-  - If `priority_ptr = 2`: priority order is $2 \rightarrow 3 \rightarrow 0 \rightarrow 1$.
-  - If `priority_ptr = 3`: priority order is $3 \rightarrow 0 \rightarrow 1 \rightarrow 2$.
-- **Zero Starvation**: When all 4 agents request access simultaneously (`req = 4'b1111`), the arbiter grants access in strict round-robin sequence ($0 \rightarrow 1 \rightarrow 2 \rightarrow 3 \rightarrow 0$), guaranteeing equal 25% bandwidth allocation.
+- **Token Update**: When channel `k` receives a grant, `priority_ptr` automatically advances to `(k + 1) % 4` on the subsequent clock cycle:
+  - If `priority_ptr = 0`: priority order is 0 -> 1 -> 2 -> 3.
+  - If `priority_ptr = 1`: priority order is 1 -> 2 -> 3 -> 0.
+  - If `priority_ptr = 2`: priority order is 2 -> 3 -> 0 -> 1.
+  - If `priority_ptr = 3`: priority order is 3 -> 0 -> 1 -> 2.
+- **Zero Starvation**: When all 4 agents request access simultaneously (`req = 4'b1111`), the arbiter grants access in strict round-robin sequence (0 -> 1 -> 2 -> 3 -> 0), guaranteeing equal 25% bandwidth allocation.
 
 ##### Verification Strategy & Results
 - **Arbitration Scenarios**: Single-requester grant, alternating requests, and persistent all-active request contention (`4'b1111`) verifying equal grant counts across all 4 channels.
@@ -1020,7 +1020,7 @@ The processor datapath is architected as an un-pipelined single-cycle engine whe
 4. **Execution & ALU (EX)**: 32-bit parameterized ALU performs integer arithmetic and bitwise comparisons. A multiplexer controlled by `ALUSrc` selects between register operand `rd2` and sign-extended `imm`.
 5. **Data Memory (MEM)**: Word-addressable synchronous RAM `data_mem [0:1023]` accessed for load (`LW`) and store (`SW`) operations.
 6. **Write-Back Multiplexer (WB)**: Selects commit data written into `rd`:
-   $$\text{WriteData} = \begin{cases} \text{PC} + 4 & \text{if Jump (JAL/JALR)} \\ \text{MemReadData} & \text{if MemToReg = 1 (LW)} \\ \text{ALUResult} & \text{otherwise} \end{cases}$$
+   - `WriteData = (Jump) ? (PC + 4) : (MemToReg ? MemReadData : ALUResult)`
 
 ##### Control Unit Decoding Matrix
 | Opcode (`[6:0]`) | Instruction Type | RegWrite | ALUSrc | MemRead | MemWrite | MemToReg | Branch | Jump | ALUOp |
@@ -1064,7 +1064,7 @@ wave zoom full
 #### 3.2 — Machine Code Assembly Benchmark Programs
 Three hand-assembled real-world workloads loaded into instruction memory via `$readmemh` and verified automatically by `cpu_tb.v`:
 1. **Program 1 (`program1_sum.hex`) — Sum of 1 to N**:
-   - Computes: $\sum_{i=1}^{10} i = 1 + 2 + \dots + 10 = 55$.
+   - Computes: `1 + 2 + ... + 10 = 55`.
    - Uses `ADDI`, `ADD`, and `BNE` loop counter.
    - Verified register commit: `x1 = 55` (`0x00000037`).
 2. **Program 2 (`program2_fib.hex`) — Fibonacci Sequence Generation**:
@@ -1164,7 +1164,9 @@ Eliminates Read-After-Write (RAW) data hazards for back-to-back arithmetic instr
 ##### Load-Use Hazard Detection Unit (`hazard_unit.v`)
 When an instruction reads a register loaded by an immediately preceding `LW` instruction, the data is not yet available in the EX stage. The hazard unit introduces a single-cycle stall:
 - **Detection Condition**:
-  $$\text{Stall} = \text{id\_ex\_mem\_read} \land ((\text{id\_ex\_rd} == \text{if\_id\_rs1}) \lor (\text{id\_ex\_rd} == \text{if\_id\_rs2}))$$
+  ```verilog
+  stall = id_ex_mem_read && ((id_ex_rd == if_id_rs1) || (id_ex_rd == if_id_rs2));
+  ```
 - **Action Taken**:
   1. Freeze Program Counter (`pc_write = 0`).
   2. Freeze `IF/ID` pipeline register (`if_id_write = 0`).
@@ -1219,11 +1221,13 @@ wave zoom full
 > 📄 **Technical Report**: Detailed CPI mathematical derivation and performance benchmarking.  
 > **Report File**: [`report/cpi_comparison.md`](report/cpi_comparison.md)  
 > Compares single-cycle vs. 5-stage pipelined processor performance:
-> - **Single-Cycle CPU**: $CPI = 1.0$, but minimum clock period $T_{clk}$ is constrained by the critical path through all 5 stages ($\approx 10.5\text{ ns}$, $F_{max} \approx 95\text{ MHz}$).
-> - **5-Stage Pipelined CPU**: Maximum stage delay is reduced to $\approx 2.4\text{ ns}$ ($F_{max} \approx 416\text{ MHz}$, a $4.38\times$ clock frequency increase).
+> - **Single-Cycle CPU**: `CPI = 1.0`, but minimum clock period `T_clk` is constrained by the critical path through all 5 stages (~10.5 ns, `F_max` ~95 MHz).
+> - **5-Stage Pipelined CPU**: Maximum stage delay is reduced to ~2.4 ns (`F_max` ~416 MHz, a 4.38x clock frequency increase).
 > - **Effective CPI Formulation**:
->   $$\text{CPI}_{\text{pipeline}} = 1.0 + \frac{\text{Load-Use Stalls} + 2 \times \text{Branch Flushes}}{\text{Instructions Retired}}$$
->   Measured testbench CPI $= 1.43$, demonstrating significant net execution speedup over single-cycle implementation.
+>   ```
+>   CPI_pipeline = 1.0 + (Load_Use_Stalls + 2 * Branch_Flushes) / Instructions_Retired
+>   ```
+>   Measured testbench CPI = 1.43, demonstrating significant net execution speedup over single-cycle implementation.
 
 ---
 
