@@ -385,3 +385,124 @@ wave zoom full
 | **06** | `add wave -r *` | Add all signals recursively to waveform window |
 | **07** | `run -all` | Execute simulation run |
 | **08** | `wave zoom full` | Zoom to fit all waveforms in window |
+
+
+---
+
+## 🎓 Workshop Assignment: Verilog RTL Design & RISC-V Processor Development (4-Day)
+
+**Trainer:** Yuvaraj Seenipandi — Infoziant | Kalasalingam University  
+**Student:** Bommu Gowtham Sai Reddy
+
+---
+
+### Day 1 — Combinational & Sequential Building Blocks (`day1/`)
+
+| Activity | Module | Description | Tests |
+| :--- | :--- | :--- | :---: |
+| 1.1 | `alu.v` | 32-bit Parameterized ALU (ADD, SUB, AND, OR, XOR, SLT, SLL, SRL) with flags | 27 PASSED |
+| 1.2 | `counter.v` | 8-bit Up/Down Counter with Sync Reset, Enable, Parallel Load | 15 PASSED |
+| 1.3 | `shifter.v` | 32-bit Barrel Shifter (SLL, SRL, SRA by 0–31) | 480 PASSED |
+| 1.4 | `regfile.v` | 32x32 Register File, hardwired x0=0, write-bypass forwarding | 264 PASSED |
+| 1.5 | `adder_sub.v` | Structural 8-bit Ripple-Carry Adder/Subtractor with generate | 512 PASSED |
+| 1.6 | `encoder.v`, `decoder.v` | 8-to-3 Priority Encoder (casez vs if-else) + 3-to-8 Decoder | 272 PASSED |
+| 1.7 | `shiftreg.v`, `lfsr.v` | Universal Shift Register + 8-bit Maximal-Length LFSR (255 states) | 6 PASSED |
+| 1.8 | `debounce.v`, `edge_detect.v` | Counter Debouncer + 2-Stage Synchronizer Edge Detector | 6 PASSED |
+
+```tcl
+cd day1
+do run_day1.do
+# View individual waveforms:
+vsim -view waves/1_1_alu.wlf
+wave zoom full
+```
+
+---
+
+### Day 2 — FSM Controllers & Memory Design (`day2/`)
+
+| Activity | Module | Description | Tests |
+| :--- | :--- | :--- | :---: |
+| 2.1 | `seq_moore.v`, `seq_mealy.v` | Overlapping 1011 Sequence Detector (Moore & Mealy comparison) | 32 PASSED |
+| 2.2 | `vending.v` | Vending Machine FSM accepting ₹5/₹10/₹20 with change return | 8 PASSED |
+| 2.3 | `fifo.v` | 16x8 Synchronous FIFO with Full/Empty/Almost flags, overflow protection | 22 PASSED |
+| 2.4 | Report | FSM Encoding, Moore/Mealy tradeoffs, CDC FIFO analysis | Completed |
+| 2.5 | `traffic_light.v` | Traffic Light FSM with Green/Yellow/Red timers + pedestrian button | 6 PASSED |
+| 2.6 | `atm.v` | ATM Controller FSM with PIN lockout, withdrawal, overdraft protection | 5 PASSED |
+| 2.7 | `arbiter.v` | 4-Way Round-Robin Arbiter with rotating priority pointer | 10 PASSED |
+| 2.8 | `ram.v`, `watchdog.v` | 64x32 Synchronous RAM + Auto-Reload Watchdog Timer | 23 PASSED |
+
+```tcl
+cd day2
+do run_day2.do
+vsim -view waves/2_3_fifo.wlf
+wave zoom full
+```
+
+---
+
+### Day 3 — Single-Cycle RV32I CPU (`day3/`)
+
+| Activity | Module / File | Description | Tests |
+| :--- | :--- | :--- | :---: |
+| 3.1 | `report/rv32i_decode_table.md` | Full RV32I Control Table (R/I/S/B/U/J types) | Completed |
+| 3.2 | `program1_sum.hex`, `program2_fib.hex`, `program3_max.hex` | Machine code: Sum(1..10)=55, Fibonacci first 8, Array Max | Completed |
+| 3.3 | `cpu.v`, `cpu_tb.v` | Full-featured single-cycle RV32I processor + testbench | 3 PASSED |
+| 3.4 | `report/waveform_analysis_3_4.md` | Waveform analysis for ADDI/SW/LW/BLT/JAL datapath signals | Completed |
+| 3.7 | `report/instruction_coverage.md` | RV32I instruction coverage matrix & corner case table | Completed |
+| 3.8 | `report/bughunt_notes.md` | RTL bug-hunt: x0 overwrite, imm bit-scramble, SRA/signed, BLT | Completed |
+
+```tcl
+cd day3
+do run_day3.do
+vsim -view waves/3_cpu_simulation.wlf
+wave zoom full
+```
+
+---
+
+### Day 4 — 5-Stage Pipeline Hazards & Analysis (`day4/`)
+
+| Activity | Module / File | Description | Tests |
+| :--- | :--- | :--- | :---: |
+| 4.1 | `forwarding_unit.v`, `riscv_5stage.v` | 5-Stage Pipeline + EX/MEM & MEM/WB Forwarding Unit | 4 PASSED |
+| 4.1 | `hazard_unit.v` | Load-Use Hazard Detection with stall bubble insertion | Verified |
+| 4.2 | Integrated | Branch flush on taken BEQ — flush IF+ID stages | Verified |
+| 4.3 | `report/cpi_comparison.md` | CPI Analysis: single-cycle vs. pipeline + penalty formula | Completed |
+| 4.5 | `report/hazard_waveform_4_5.md` | Waveform trace of load-use stall and branch flush timing | Completed |
+| 4.6 | `riscv_5stage.v` | Hardware performance counters: cycles, instret, stalls, flushes | Verified |
+| 4.8 | `report/architecture_diagram_4_8.md` | Pipeline datapath diagram + hazard resolution summary table | Completed |
+
+```tcl
+cd day4
+do run_day4.do
+vsim -view waves/4_pipeline_simulation.wlf
+wave zoom full
+```
+
+---
+
+### Workshop Report Files (`report/`)
+
+| File | Content |
+| :--- | :--- |
+| `review_note_2_4.md` | FSM encoding analysis (Binary/One-Hot/Gray), Moore vs Mealy, CDC FIFO |
+| `rv32i_decode_table.md` | Complete RV32I instruction decode & control signal table |
+| `waveform_analysis_3_4.md` | Detailed signal-by-signal waveform explanation for 5 key instructions |
+| `instruction_coverage.md` | Instruction coverage matrix and corner case verification summary |
+| `bughunt_notes.md` | 4 real RTL bug root-cause analyses and register-transfer fixes |
+| `cpi_comparison.md` | Measured CPI data, penalty cycle analysis, and performance formula |
+| `hazard_waveform_4_5.md` | Load-use stall and branch flush pipeline timing diagrams |
+| `architecture_diagram_4_8.md` | Full 5-stage pipeline architecture diagram with forwarding paths |
+
+---
+
+### Completion Checklist
+
+- [x] Day 1: All 8 activities — 1,582 / 1,582 test assertions PASSED
+- [x] Day 2: All 8 activities — 106 / 106 test assertions PASSED
+- [x] Day 3: RV32I CPU — 3 programs verified (Sum=55, Fib[8], MaxArray=78)
+- [x] Day 4: 5-Stage Pipeline — 4 / 4 self-checks PASSED (forwarding + stall + flush)
+- [x] All waveforms generated in `dayX/waves/*.wlf`
+- [x] All tech notes and reports completed in `report/`
+- [x] Repository pushed to `https://github.com/BOMMUGOWTHAMSAIREDDY97/RISC-V_WORKSHOP.git`
