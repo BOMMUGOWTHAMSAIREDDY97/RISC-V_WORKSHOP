@@ -1,8 +1,9 @@
 # Verilog HDL Digital Design Projects
 
-> **🎓 Class Done ✅** — Verilog RTL Design & RISC-V Processor Development (4-Day Workshop)  
-> **Student:** Bommu Gowtham Sai Reddy &nbsp;|&nbsp; **Trainer:** Yuvaraj Seenipandi — Infoziant | Kalasalingam University  
-> **Status:** All 4 Days Completed — 1,688+ test assertions PASSED across Day 1–Day 4
+> **🎓 CLASS DONE ✅** — VERILOG RTL DESIGN & RISC-V PROCESSOR DEVELOPMENT (4-DAY WORKSHOP)  
+> **STUDENT:** BOMMU GOWTHAM SAI REDDY &nbsp;|&nbsp; **REG NO:** 9923005065 &nbsp;|&nbsp; **DEPT:** ECE  
+> **TRAINER:** YUVARAJ SEENIPANDI — INFOZIANT | KALASALINGAM UNIVERSITY  
+> **STATUS:** ALL 4 DAYS COMPLETED — 1,688+ TEST ASSERTIONS PASSED ACROSS DAY 1–DAY 4
 
 A collection of digital logic designs, state machine controllers, pipelined processor architectures, and verification testbenches implemented in Verilog HDL, accompanied by functional simulation waveforms from ModelSim / QuestaSim.
 
