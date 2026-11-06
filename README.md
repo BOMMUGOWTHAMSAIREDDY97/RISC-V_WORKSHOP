@@ -560,7 +560,7 @@ wave zoom full
 
 #### 2.4 — FSM Design Review
 > 📄 Theory report only — no simulation required.  
-> See [`report/review_note_2_4.md`](../report/review_note_2_4.md) — FSM encoding (Binary/One-Hot/Gray), Moore vs Mealy trade-offs, CDC FIFO with Gray code pointers.
+> See [`report/review_note_2_4.md`](report/review_note_2_4.md) — FSM encoding (Binary/One-Hot/Gray), Moore vs Mealy trade-offs, CDC FIFO with Gray code pointers.
 
 #### 2.5 — Traffic Light Controller
 ```tcl
@@ -645,13 +645,13 @@ wave zoom full
 ![3.3 CPU Simulation Waveform (3)](day3/3%20(3).png)
 
 #### 3.4 — Waveform Analysis
-> 📄 Report only — See [`report/waveform_analysis_3_4.md`](../report/waveform_analysis_3_4.md)
+> 📄 Report only — See [`report/waveform_analysis_3_4.md`](report/waveform_analysis_3_4.md)
 
 #### 3.7 — Instruction Coverage
-> 📄 Report only — See [`report/instruction_coverage.md`](../report/instruction_coverage.md)
+> 📄 Report only — See [`report/instruction_coverage.md`](report/instruction_coverage.md)
 
 #### 3.8 — Bug Hunt Notes
-> 📄 Report only — See [`report/bughunt_notes.md`](../report/bughunt_notes.md)
+> 📄 Report only — See [`report/bughunt_notes.md`](report/bughunt_notes.md)
 
 ---
 
@@ -687,13 +687,13 @@ wave zoom full
 ![4 Pipeline Simulation Waveform (5)](day4/4%20(5).png)
 
 #### 4.3 — CPI Comparison
-> 📄 Report only — See [`report/cpi_comparison.md`](../report/cpi_comparison.md)
+> 📄 Report only — See [`report/cpi_comparison.md`](report/cpi_comparison.md)
 
 #### 4.5 — Hazard Waveform Analysis
-> 📄 Report only — See [`report/hazard_waveform_4_5.md`](../report/hazard_waveform_4_5.md)
+> 📄 Report only — See [`report/hazard_waveform_4_5.md`](report/hazard_waveform_4_5.md)
 
 #### 4.8 — Architecture Diagram
-> 📄 Report only — See [`report/architecture_diagram_4_8.md`](../report/architecture_diagram_4_8.md)
+> 📄 Report only — See [`report/architecture_diagram_4_8.md`](report/architecture_diagram_4_8.md)
 
 ---
 
@@ -701,14 +701,14 @@ wave zoom full
 
 | File | Content |
 | :--- | :--- |
-| `review_note_2_4.md` | FSM encoding analysis (Binary/One-Hot/Gray), Moore vs Mealy, CDC FIFO |
-| `rv32i_decode_table.md` | Complete RV32I instruction decode & control signal table |
-| `waveform_analysis_3_4.md` | Detailed signal-by-signal waveform explanation for 5 key instructions |
-| `instruction_coverage.md` | Instruction coverage matrix and corner case verification summary |
-| `bughunt_notes.md` | 4 real RTL bug root-cause analyses and register-transfer fixes |
-| `cpi_comparison.md` | Measured CPI data, penalty cycle analysis, and performance formula |
-| `hazard_waveform_4_5.md` | Load-use stall and branch flush pipeline timing diagrams |
-| `architecture_diagram_4_8.md` | Full 5-stage pipeline architecture diagram with forwarding paths |
+| [`review_note_2_4.md`](report/review_note_2_4.md) | FSM encoding analysis (Binary/One-Hot/Gray), Moore vs Mealy, CDC FIFO |
+| [`rv32i_decode_table.md`](report/rv32i_decode_table.md) | Complete RV32I instruction decode & control signal table |
+| [`waveform_analysis_3_4.md`](report/waveform_analysis_3_4.md) | Detailed signal-by-signal waveform explanation for 5 key instructions |
+| [`instruction_coverage.md`](report/instruction_coverage.md) | Instruction coverage matrix and corner case verification summary |
+| [`bughunt_notes.md`](report/bughunt_notes.md) | 4 real RTL bug root-cause analyses and register-transfer fixes |
+| [`cpi_comparison.md`](report/cpi_comparison.md) | Measured CPI data, penalty cycle analysis, and performance formula |
+| [`hazard_waveform_4_5.md`](report/hazard_waveform_4_5.md) | Load-use stall and branch flush pipeline timing diagrams |
+| [`architecture_diagram_4_8.md`](report/architecture_diagram_4_8.md) | Full 5-stage pipeline architecture diagram with forwarding paths |
 
 ---
 
