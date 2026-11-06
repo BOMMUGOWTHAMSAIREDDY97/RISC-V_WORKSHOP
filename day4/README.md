@@ -1,8 +1,10 @@
 # Day 4: 5-Stage Pipeline Hazards, Analysis & Submission
 
-**Student Name:** Bommu Gowtham Sai Reddy  
-**Program:** Verilog RTL Design and RISC-V Processor Development  
-**Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+**STUDENT NAME:** BOMMU GOWTHAM SAI REDDY  
+**REG NO:** 9923005065  
+**DEPT:** ECE  
+**PROGRAM:** VERILOG RTL DESIGN AND RISC-V PROCESSOR DEVELOPMENT  
+**TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 
 ---
 

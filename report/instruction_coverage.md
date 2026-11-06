@@ -1,8 +1,10 @@
-# Activity 3.7: RV32I Instruction Coverage Matrix
+﻿# Activity 3.7: RV32I Instruction Coverage Matrix
 
-**Student:** Bommu Gowtham Sai Reddy  
-**Program:** Verilog RTL Design and RISC-V Processor Development  
-**Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+**STUDENT:** BOMMU GOWTHAM SAI REDDY
+**REG NO:** 9923005065
+**DEPT:** ECE  
+**PROGRAM:** VERILOG RTL DESIGN AND RISC-V PROCESSOR DEVELOPMENT  
+**TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 
 ---
 

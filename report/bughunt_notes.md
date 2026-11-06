@@ -1,8 +1,10 @@
-# Activity 3.8: Processor Bug-Hunt & Root Cause Analysis
+﻿# Activity 3.8: Processor Bug-Hunt & Root Cause Analysis
 
-**Student:** Bommu Gowtham Sai Reddy  
-**Program:** Verilog RTL Design and RISC-V Processor Development  
-**Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+**STUDENT:** BOMMU GOWTHAM SAI REDDY
+**REG NO:** 9923005065
+**DEPT:** ECE  
+**PROGRAM:** VERILOG RTL DESIGN AND RISC-V PROCESSOR DEVELOPMENT  
+**TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 
 ---
 

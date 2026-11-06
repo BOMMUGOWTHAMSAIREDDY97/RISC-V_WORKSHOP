@@ -1,14 +1,16 @@
-# Activity 3.4: RV32I Processor Waveform Execution Analysis
+﻿# Activity 3.4: RV32I Processor Waveform Execution Analysis
 
-**Student:** Bommu Gowtham Sai Reddy  
-**Program:** Verilog RTL Design and RISC-V Processor Development  
-**Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+**STUDENT:** BOMMU GOWTHAM SAI REDDY
+**REG NO:** 9923005065
+**DEPT:** ECE  
+**PROGRAM:** VERILOG RTL DESIGN AND RISC-V PROCESSOR DEVELOPMENT  
+**TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 
 ---
 
 ## Single-Cycle RV32I Microarchitecture Datapath Flow
 
-In a single-cycle implementation, each instruction executes in exactly one clock cycle ($CPI = 1$). All combinational path operations—instruction fetch, operand decode and register read, ALU computation, memory access, and writeback multiplexing—settle within the clock period prior to the rising clock edge, where state registers ($PC$, Register File, and Data Memory) are synchronously updated.
+In a single-cycle implementation, each instruction executes in exactly one clock cycle ($CPI = 1$). All combinational path operationsâ€”instruction fetch, operand decode and register read, ALU computation, memory access, and writeback multiplexingâ€”settle within the clock period prior to the rising clock edge, where state registers ($PC$, Register File, and Data Memory) are synchronously updated.
 
 ```
 +----+       +------+       +---------+       +-----+       +------+       +----+

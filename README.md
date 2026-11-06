@@ -378,11 +378,13 @@ wave zoom full
 
 ---
 
-## 🎓 Workshop Assignment: Verilog RTL Design & RISC-V Processor Development (4-Day)
+## 🎓 WORKSHOP ASSIGNMENT: VERILOG RTL DESIGN & RISC-V PROCESSOR DEVELOPMENT (4-DAY)
 
-**Trainer:** Yuvaraj Seenipandi — Infoziant | Kalasalingam University  
-**Student:** Bommu Gowtham Sai Reddy  
-**Result:** ✅ Class Done — All 4 Days Completed
+**TRAINER:** YUVARAJ SEENIPANDI — INFOZIANT | KALASALINGAM UNIVERSITY  
+**STUDENT:** BOMMU GOWTHAM SAI REDDY  
+**REG NO:** 9923005065  
+**DEPT:** ECE  
+**RESULT:** ✅ CLASS DONE — ALL 4 DAYS COMPLETED
 
 ---
 
@@ -1277,8 +1279,8 @@ wave zoom full
 
 ### 10. Verification Summary & Known Issues
 
-- **Student:** Bommu Gowtham Sai Reddy
-- **Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+- **STUDENT:** BOMMU GOWTHAM SAI REDDY | **REG NO:** 9923005065 | **DEPT:** ECE
+- **TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 - **Known Issues:** **None.** All design modules compile with 0 errors and all self-checking testbenches execute with **0 FAIL** messages.
 - **Total Test Checks:** 1,688+ assertions evaluated and 100% PASSED.
 - **Waveforms:** Stored as `.png` screenshots in `dayX/waves/` and displayed inline across all activity sections.

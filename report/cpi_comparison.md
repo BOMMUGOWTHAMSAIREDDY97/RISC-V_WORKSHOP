@@ -1,8 +1,10 @@
-# Activity 4.3 & 4.7: CPI Comparison — Single-Cycle vs. 5-Stage Pipeline
+﻿# Activity 4.3 & 4.7: CPI Comparison â€” Single-Cycle vs. 5-Stage Pipeline
 
-**Student:** Bommu Gowtham Sai Reddy  
-**Program:** Verilog RTL Design and RISC-V Processor Development  
-**Trainer:** Yuvaraj Seenipandi, Infoziant (Kalasalingam University)
+**STUDENT:** BOMMU GOWTHAM SAI REDDY
+**REG NO:** 9923005065
+**DEPT:** ECE  
+**PROGRAM:** VERILOG RTL DESIGN AND RISC-V PROCESSOR DEVELOPMENT  
+**TRAINER:** YUVARAJ SEENIPANDI, INFOZIANT (KALASALINGAM UNIVERSITY)
 
 ---
 
@@ -15,7 +17,7 @@
 | **5-Stage Pipeline (This Run)** | 1.00 | 1.15 | 29 cycles / ~25 ideal cycles |
 
 > [!NOTE]
-> Single-cycle processor always completes in exactly 1 clock cycle per instruction, but the clock **period** must be long enough to cover the longest possible combinational path (typically the Load instruction path: IMEM → Decode → RegFile read → ALU → DMEM read → WB mux). In a pipelined design, each stage is shallower, allowing a **much shorter clock period** and thus higher maximum operating frequency ($F_{max}$), which ultimately compensates for the per-cycle overhead.
+> Single-cycle processor always completes in exactly 1 clock cycle per instruction, but the clock **period** must be long enough to cover the longest possible combinational path (typically the Load instruction path: IMEM â†’ Decode â†’ RegFile read â†’ ALU â†’ DMEM read â†’ WB mux). In a pipelined design, each stage is shallower, allowing a **much shorter clock period** and thus higher maximum operating frequency ($F_{max}$), which ultimately compensates for the per-cycle overhead.
 
 ---
 
@@ -27,7 +29,7 @@
 | **Instructions Retired** | 7 |
 | **Load-Use Stall Cycles** | 1 |
 | **Branch Flush Events** | 1 |
-| **Effective CPI (Measured)** | **4.14** *(start-up dominant — see note)* |
+| **Effective CPI (Measured)** | **4.14** *(start-up dominant â€” see note)* |
 
 > [!IMPORTANT]
 > The high CPI of 4.14 measured in the testbench run is **artificially inflated by pipeline startup latency**. The 5-stage pipeline requires 4 clock cycles before the first instruction reaches WB and retires. For a **long instruction stream** (100+ instructions), the startup cost is amortized and the effective CPI converges towards `1 + (Stalls + Flushes) / Instructions_Retired`.
@@ -61,7 +63,7 @@ ADDI x6:       IF   ID  ---  (flush)
 Next IF:            IF  ---  (flush)
 Target:                  IF   ID   EX  MEM   WB
                          ^
-              (Branch resolved at EX → 2 flush bubbles)
+              (Branch resolved at EX â†’ 2 flush bubbles)
 ```
 
 **CPI penalty:** `+2 cycles` per taken branch.
@@ -78,7 +80,7 @@ Target:                  IF   ID   EX  MEM   WB
 | **Data Memory Access** | Combinational | 1 stage (MEM) |
 | **Write-Back Mux** | Combinational | 1 stage (WB) |
 | **Minimum Clock Period** | Sum of all 5 paths | Max of any single path |
-| **Relative $F_{max}$ Gain** | 1× | ~3-5× depending on memory latency |
+| **Relative $F_{max}$ Gain** | 1Ã— | ~3-5Ã— depending on memory latency |
 
 ---
 
@@ -90,6 +92,6 @@ CPI_pipeline = 1.0 + (Load-Use Stalls + 2 x Branch Flushes) / Instructions_Retir
 
 For this run:
 ```
-CPI_effective = 1.0 + (1 + 2x1) / 7  ≈  1.43  (excluding startup)
+CPI_effective = 1.0 + (1 + 2x1) / 7  â‰ˆ  1.43  (excluding startup)
 ```
 
