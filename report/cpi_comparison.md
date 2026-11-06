@@ -88,3 +88,4 @@ $$CPI_{pipeline} = 1.0 + \frac{\text{Load-Use Stalls} + 2 \times \text{Branch Fl
 
 For this run:
 $$CPI_{effective} = 1.0 + \frac{1 + 2 \times 1}{7} \approx 1.43 \text{ (excluding startup)}$$
+

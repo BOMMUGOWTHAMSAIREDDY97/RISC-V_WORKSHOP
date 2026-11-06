@@ -53,3 +53,4 @@ EX stage:    SW     ADD    BEQ   NOP   NOP   x7
                            ^
                    branch_taken=1 (flushes ADDI at ID, redirects PC)
 ```
+

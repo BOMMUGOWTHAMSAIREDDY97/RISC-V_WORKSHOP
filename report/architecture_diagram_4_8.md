@@ -70,3 +70,4 @@
 3. **Branch Penalty Trade-Off:** The design uses **predict-not-taken** branch prediction. Taken branches cause 2 wasted pipeline bubbles. Modern processors use sophisticated branch predictors (BTB + BHT) to reduce this to near-zero average penalty.
 
 4. **Performance Counters Confirm Correct Hazard Handling:** The hardware `stall_count` and `flush_count` counters provide cycle-accurate evidence of hazard detection and resolution without manual waveform inspection.
+

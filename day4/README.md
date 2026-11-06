@@ -65,3 +65,4 @@ To view pipeline stage waveforms with full zoom:
 vsim -view waves/4_pipeline_simulation.wlf
 wave zoom full
 ```
+

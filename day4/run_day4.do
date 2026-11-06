@@ -12,3 +12,4 @@ vlog tb/riscv_5stage_tb.v
 
 # Run simulation and dump waveforms
 vsim -c -wlf waves/4_pipeline_simulation.wlf riscv_5stage_tb -do "add wave -r /*; run -all; quit"
+
