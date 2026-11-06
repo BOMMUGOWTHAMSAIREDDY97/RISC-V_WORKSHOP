@@ -420,6 +420,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.1 ALU Waveform](day1/1.1.png)
 
 #### 1.2 — Up/Down Counter
 ```tcl
@@ -432,6 +433,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.2 Counter Waveform](day1/1.2.png)
 
 #### 1.3 — Barrel Shifter
 ```tcl
@@ -444,6 +446,8 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.3 Shifter Waveform (1)](day1/1.3.1.png)
+![1.3 Shifter Waveform (2)](day1/1.3.2.png)
 
 #### 1.4 — Register File
 ```tcl
@@ -456,6 +460,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.4 Register File Waveform](day1/1.4.png)
 
 #### 1.5 — Ripple-Carry Adder/Subtractor
 ```tcl
@@ -468,6 +473,9 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.5 Adder/Subtractor Waveform (1)](day1/1.5.1.png)
+![1.5 Adder/Subtractor Waveform (2)](day1/1.5.2.png)
+![1.5 Adder/Subtractor Waveform (3)](day1/1.5.3.png)
 
 #### 1.6 — Priority Encoder & Decoder
 ```tcl
@@ -480,6 +488,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.6 Encoder/Decoder Waveform](day1/1.6.png)
 
 #### 1.7 — LFSR & Universal Shift Register
 ```tcl
@@ -492,6 +501,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.7 LFSR & Shift Register Waveform](day1/1.7.png)
 
 #### 1.8 — Debouncer & Edge Detector
 ```tcl
@@ -504,6 +514,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![1.8 Debouncer & Edge Detector Waveform](day1/1.8.png)
 
 ---
 
@@ -531,6 +542,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.1 Sequence Detector Waveform](day2/2.1.png)
 
 #### 2.2 — Vending Machine FSM
 ```tcl
@@ -543,6 +555,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.2 Vending Machine Waveform](day2/2.2.png)
 
 #### 2.3 — Synchronous FIFO (16×8)
 ```tcl
@@ -555,6 +568,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.3 FIFO Waveform](day2/2.3.png)
 
 #### 2.4 — FSM Design Review
 > 📄 Theory report only — no simulation required.  
@@ -571,6 +585,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.5 Traffic Light Waveform](day2/2.5.png)
 
 #### 2.6 — ATM Controller FSM
 ```tcl
@@ -583,6 +598,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.6 ATM Controller Waveform](day2/2.6.png)
 
 #### 2.7 — Round-Robin Arbiter
 ```tcl
@@ -595,6 +611,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.7 Round-Robin Arbiter Waveform](day2/2.7.png)
 
 #### 2.8 — RAM & Watchdog Timer
 ```tcl
@@ -607,6 +624,7 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![2.8 RAM & Watchdog Waveform](day2/2.8.png)
 
 ---
 
@@ -634,6 +652,9 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![3.3 CPU Simulation Waveform (1)](day3/3%20(1).png)
+![3.3 CPU Simulation Waveform (2)](day3/3%20(2).png)
+![3.3 CPU Simulation Waveform (3)](day3/3%20(3).png)
 
 #### 3.4 — Waveform Analysis
 > 📄 Report only — See [`report/waveform_analysis_3_4.md`](../report/waveform_analysis_3_4.md)
@@ -671,6 +692,11 @@ add wave -r *
 run -all
 wave zoom full
 ```
+![4 Pipeline Simulation Waveform (1)](day4/4%20(1).png)
+![4 Pipeline Simulation Waveform (2)](day4/4%20(2).png)
+![4 Pipeline Simulation Waveform (3)](day4/4%20(3).png)
+![4 Pipeline Simulation Waveform (4)](day4/4%20(4).png)
+![4 Pipeline Simulation Waveform (5)](day4/4%20(5).png)
 
 #### 4.3 — CPI Comparison
 > 📄 Report only — See [`report/cpi_comparison.md`](../report/cpi_comparison.md)
