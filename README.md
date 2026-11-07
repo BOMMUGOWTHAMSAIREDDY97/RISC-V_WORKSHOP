@@ -449,7 +449,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 The waveform confirms correct arithmetic transitions, zero-flag assertion upon result `0x00000000`, negative-flag activation upon MSB bit 31 = 1, and single-cycle flag updates across all 8 ALU opcode selections.
-![1.1 ALU Waveform](day1/1.1.png)
+![1.1 ALU Waveform](day1/waves/1.1.png)
 
 ---
 
@@ -485,7 +485,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform demonstrates clean synchronous transitions strictly aligned to rising clock edges, error-free load overrides, and smooth directional inversion upon toggling `up_down`.
-![1.2 Counter Waveform](day1/1.2.png)
+![1.2 Counter Waveform](day1/waves/1.2.png)
 
 ---
 
@@ -523,8 +523,8 @@ wave zoom full
 
 ##### Simulation Waveforms & Analysis
 Waveforms display immediate single-cycle combinational settling across the entire 0-to-31 shift sweep with verified sign replication during negative arithmetic shifts.
-![1.3 Shifter Waveform (1)](day1/1.3.1.png)
-![1.3 Shifter Waveform (2)](day1/1.3.2.png)
+![1.3 Shifter Waveform (1)](day1/waves/1.3.1.png)
+![1.3 Shifter Waveform (2)](day1/waves/1.3.2.png)
 
 ---
 
@@ -558,7 +558,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform confirms `rd_data1` reflects new `wr_data` in the identical clock cycle during bypass events, while attempts to overwrite `x0` show output held strictly at zero.
-![1.4 Register File Waveform](day1/1.4.png)
+![1.4 Register File Waveform](day1/waves/1.4.png)
 
 ---
 
@@ -593,9 +593,9 @@ wave zoom full
 
 ##### Simulation Waveforms & Analysis
 Waveform captures confirm exact ripple-carry bit propagation, valid carry-out assertion on unsigned wraparound, and overflow assertion when adding two large positive numbers produces an erroneous negative sign bit.
-![1.5 Adder/Subtractor Waveform (1)](day1/1.5.1.png)
-![1.5 Adder/Subtractor Waveform (2)](day1/1.5.2.png)
-![1.5 Adder/Subtractor Waveform (3)](day1/1.5.3.png)
+![1.5 Adder/Subtractor Waveform (1)](day1/waves/1.5.1.png)
+![1.5 Adder/Subtractor Waveform (2)](day1/waves/1.5.2.png)
+![1.5 Adder/Subtractor Waveform (3)](day1/waves/1.5.3.png)
 
 ---
 
@@ -630,7 +630,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform demonstrates proper priority selection when multiple input bits are asserted simultaneously (e.g. `8'b10000001` evaluates to `3'b111`), with `valid` dropping to zero exclusively upon `8'b00000000`.
-![1.6 Encoder/Decoder Waveform](day1/1.6.png)
+![1.6 Encoder/Decoder Waveform](day1/waves/1.6.png)
 
 ---
 
@@ -664,7 +664,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform captures the deterministic pseudo-random progression of the LFSR output vector and clean serial bit shifts in the universal shift register during parallel load and directional transitions.
-![1.7 LFSR & Shift Register Waveform](day1/1.7.png)
+![1.7 LFSR & Shift Register Waveform](day1/waves/1.7.png)
 
 ---
 
@@ -698,7 +698,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform explicitly displays multiple rapid glitch spikes on `noisy_in` while `clean_out` remains completely flat at zero until the noise settles, followed by an exact single-cycle pulse on `edge_pulse`.
-![1.8 Debouncer & Edge Detector Waveform](day1/1.8.png)
+![1.8 Debouncer & Edge Detector Waveform](day1/waves/1.8.png)
 
 ---
 
@@ -753,7 +753,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform highlights the phase difference between Mealy and Moore: `dout_mealy` pulses high simultaneously with input bit `din=1` while `state=S_101`, whereas `dout_moore` pulses high on the subsequent positive clock edge when entering `S_1011`.
-![2.1 Sequence Detector Waveform](day2/2.1.png)
+![2.1 Sequence Detector Waveform](day2/waves/2.1.png)
 
 ---
 
@@ -793,7 +793,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform illustrates accumulated balance increments on successive coin insertions, with `dispense` asserting cleanly for 1 cycle when threshold ₹20 is reached and `change` outputting ₹5 during overpayment.
-![2.2 Vending Machine Waveform](day2/2.2.png)
+![2.2 Vending Machine Waveform](day2/waves/2.2.png)
 
 ---
 
@@ -830,7 +830,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform demonstrates monotonic increment of `count` during write bursts, clean flag transitions on boundary conditions (`empty` deasserting after 1st write, `full` asserting on 16th write), and zero data corruption during simultaneous read/write operations.
-![2.3 FIFO Waveform](day2/2.3.png)
+![2.3 FIFO Waveform](day2/waves/2.3.png)
 
 ---
 
@@ -877,7 +877,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform verifies exact timer countdown durations, immediate latching of `ped_btn`, transition into yellow caution, and safe crosswalk activation with `ped_walk=1` concurrent with `main_red=1`.
-![2.5 Traffic Light Waveform](day2/2.5.png)
+![2.5 Traffic Light Waveform](day2/waves/2.5.png)
 
 ---
 
@@ -914,7 +914,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform captures successful PIN authentication, balance inquiry returning valid initial balance (`1000`), deduction to `700` upon `300` withdrawal, and immediate rejection of overdraft requests.
-![2.6 ATM Controller Waveform](day2/2.6.png)
+![2.6 ATM Controller Waveform](day2/waves/2.6.png)
 
 ---
 
@@ -952,7 +952,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform verifies one-hot mutual exclusivity of `grant[3:0]` under all conditions, with the active grant rotating predictably across agents 0, 1, 2, and 3 during simultaneous contention.
-![2.7 Round-Robin Arbiter Waveform](day2/2.7.png)
+![2.7 Round-Robin Arbiter Waveform](day2/waves/2.7.png)
 
 ---
 
@@ -986,7 +986,7 @@ wave zoom full
 
 ##### Simulation Waveform & Analysis
 Waveform captures synchronous write and read cycles with matching data signatures, followed by watchdog timer decrementing, reset by periodic kicks, and firing `reset_pulse` when unserviced.
-![2.8 RAM & Watchdog Waveform](day2/2.8.png)
+![2.8 RAM & Watchdog Waveform](day2/waves/2.8.png)
 
 ---
 
@@ -1058,9 +1058,9 @@ wave zoom full
 - **Waveform 1 (Summation Program)**: Shows sequential `PC` stepping through integer addition loop, tracking register `x1` accumulating up to `55` (`0x37`) upon loop exit.
 - **Waveform 2 (Fibonacci Sequence)**: Shows execution of recursive addition with `SW` instructions writing consecutive Fibonacci values `0, 1, 1, 2, 3, 5, 8, 13` into data memory locations `0x00`–`0x1C`.
 - **Waveform 3 (Array Maximum)**: Illustrates conditional branch `BLT` skipping or updating register `x3` as it identifies the maximum element `78` (`0x4E`).
-![3.3 CPU Simulation Waveform (1)](day3/3%20(1).png)
-![3.3 CPU Simulation Waveform (2)](day3/3%20(2).png)
-![3.3 CPU Simulation Waveform (3)](day3/3%20(3).png)
+![3.3 CPU Simulation Waveform (1)](day3/waves/3_1.png)
+![3.3 CPU Simulation Waveform (2)](day3/waves/3_2.png)
+![3.3 CPU Simulation Waveform (3)](day3/waves/3_3.png)
 
 ---
 
@@ -1212,11 +1212,11 @@ wave zoom full
 - **Waveform 2 (Load-Use Stall Insertion)**: Shows `stall` signal pulsing high for 1 cycle, `pc` freezing, and `id_ex_reg_write` dropping to 0 (bubble insertion).
 - **Waveform 3 (Branch Flush Timing)**: Shows `branch_taken` asserting in MEM stage, immediately clearing `if_id_instr` and `id_ex_instr` to `32'h00000013` (NOP) while PC loads branch target.
 - **Waveforms 4 & 5 (Performance Counter Profiling)**: Confirms accurate cycle count, retired instruction count, stall count, and flush count values at simulation termination.
-![4 Pipeline Simulation Waveform (1)](day4/4%20(1).png)
-![4 Pipeline Simulation Waveform (2)](day4/4%20(2).png)
-![4 Pipeline Simulation Waveform (3)](day4/4%20(3).png)
-![4 Pipeline Simulation Waveform (4)](day4/4%20(4).png)
-![4 Pipeline Simulation Waveform (5)](day4/4%20(5).png)
+![4 Pipeline Simulation Waveform (1)](day4/waves/4_1.png)
+![4 Pipeline Simulation Waveform (2)](day4/waves/4_2.png)
+![4 Pipeline Simulation Waveform (3)](day4/waves/4_3.png)
+![4 Pipeline Simulation Waveform (4)](day4/waves/4_4.png)
+![4 Pipeline Simulation Waveform (5)](day4/waves/4_5.png)
 
 ---
 
