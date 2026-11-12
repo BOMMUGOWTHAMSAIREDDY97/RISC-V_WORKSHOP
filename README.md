@@ -1005,7 +1005,43 @@ Waveform captures synchronous write and read cycles with matching data signature
 
 ---
 
-#### 3.1 & 3.3 — Single-Cycle 32-Bit RISC-V (RV32I) Processor Core
+#### 3.1 — Full RV32I Instruction Decode & Control Architecture
+> 📄 **Technical Report**: Comprehensive decode matrix and control line generation.  
+> **Report File**: [`report/rv32i_decode_table.md`](report/rv32i_decode_table.md)  
+Details the centralized single-cycle control decoding logic mapping 7-bit opcodes, 3-bit `funct3`, and 7-bit `funct7` fields to CPU datapath control lines.
+
+##### Control Unit Decoding Matrix
+| Opcode (`[6:0]`) | Instruction Type | RegWrite | ALUSrc | MemRead | MemWrite | MemToReg | Branch | Jump | ALUOp |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `0110011` | **R-type** (`ADD, SUB, AND, OR, SLT`) | 1 | 0 | 0 | 0 | 0 | 0 | 0 | R-type decode |
+| `0010011` | **I-type** (`ADDI, ANDI, ORI, SLTI`) | 1 | 1 | 0 | 0 | 0 | 0 | 0 | I-type decode |
+| `0000011` | **I-type Load** (`LW`) | 1 | 1 | 1 | 0 | 1 | 0 | 0 | ADD (address) |
+| `0100011` | **S-type Store** (`SW`) | 0 | 1 | 0 | 1 | X | 0 | 0 | ADD (address) |
+| `1100011` | **B-type Branch** (`BEQ, BNE, BLT`) | 0 | 0 | 0 | 0 | X | 1 | 0 | Compare |
+| `0110111` | **U-type** (`LUI`) | 1 | 1 | 0 | 0 | 0 | 0 | 0 | Pass Imm |
+| `1101111` | **J-type** (`JAL`) | 1 | X | 0 | 0 | 0 | 0 | 1 | PC + 4 commit |
+| `1100111` | **I-type Jump** (`JALR`) | 1 | 1 | 0 | 0 | 0 | 0 | 1 | PC + 4 commit |
+
+---
+
+#### 3.2 — Machine Code Assembly Benchmark Programs
+Three hand-assembled real-world workloads loaded into instruction memory via `$readmemh` and verified automatically by `cpu_tb.v`:
+1. **Program 1 (`program1_sum.hex`) — Sum of 1 to N**:
+   - Computes: `1 + 2 + ... + 10 = 55`.
+   - Uses `ADDI`, `ADD`, and `BNE` loop counter.
+   - Verified register commit: `x1 = 55` (`0x00000037`).
+2. **Program 2 (`program2_fib.hex`) — Fibonacci Sequence Generation**:
+   - Generates the first 8 terms: `F[0]=0, F[1]=1, F[2]=1, F[3]=2, F[4]=3, F[5]=5, F[6]=8, F[7]=13`.
+   - Stores terms into RAM addresses using `SW` and tracks memory pointers.
+   - Verified memory signature: `data_mem[0..7] = {0, 1, 1, 2, 3, 5, 8, 13}`.
+3. **Program 3 (`program3_max.hex`) — Array Maximum Search**:
+   - Scans 5 unsorted array entries: `[12, 45, 23, 78, 34]`.
+   - Uses `LW` to load array elements, signed comparison `BLT` to detect larger elements, and updates the candidate register.
+   - Verified final register: `x3 = 78` (`0x0000004e`).
+
+---
+
+#### 3.3 — Single-Cycle 32-Bit RISC-V (RV32I) Processor Core Implementation
 A complete synthesizable 32-bit RISC-V processor implementing the RV32I base integer instruction set architecture in a single-cycle datapath with dedicated instruction and data memories.
 - **Files**: [`cpu.v`](day3/src/cpu.v), [`cpu_tb.v`](day3/tb/cpu_tb.v)
 - **Clock & Reset**: Synchronous execution on `posedge clk` with active-high synchronous reset `rst`.
@@ -1024,18 +1060,6 @@ The processor datapath is architected as an un-pipelined single-cycle engine whe
 5. **Data Memory (MEM)**: Word-addressable synchronous RAM `data_mem [0:1023]` accessed for load (`LW`) and store (`SW`) operations.
 6. **Write-Back Multiplexer (WB)**: Selects commit data written into `rd`:
    - `WriteData = (Jump) ? (PC + 4) : (MemToReg ? MemReadData : ALUResult)`
-
-##### Control Unit Decoding Matrix
-| Opcode (`[6:0]`) | Instruction Type | RegWrite | ALUSrc | MemRead | MemWrite | MemToReg | Branch | Jump | ALUOp |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `0110011` | **R-type** (`ADD, SUB, AND, OR, SLT`) | 1 | 0 | 0 | 0 | 0 | 0 | 0 | R-type decode |
-| `0010011` | **I-type** (`ADDI, ANDI, ORI, SLTI`) | 1 | 1 | 0 | 0 | 0 | 0 | 0 | I-type decode |
-| `0000011` | **I-type Load** (`LW`) | 1 | 1 | 1 | 0 | 1 | 0 | 0 | ADD (address) |
-| `0100011` | **S-type Store** (`SW`) | 0 | 1 | 0 | 1 | X | 0 | 0 | ADD (address) |
-| `1100011` | **B-type Branch** (`BEQ, BNE, BLT`) | 0 | 0 | 0 | 0 | X | 1 | 0 | Compare |
-| `0110111` | **U-type** (`LUI`) | 1 | 1 | 0 | 0 | 0 | 0 | 0 | Pass Imm |
-| `1101111` | **J-type** (`JAL`) | 1 | X | 0 | 0 | 0 | 0 | 1 | PC + 4 commit |
-| `1100111` | **I-type Jump** (`JALR`) | 1 | 1 | 0 | 0 | 0 | 0 | 1 | PC + 4 commit |
 
 ##### Verification Strategy & Automated Benchmarks
 - **Test Harness (`cpu_tb.v`)**: Automatically loads machine code hex programs into `instruction_mem` via `$readmemh`, clocks the processor until the halt loop is detected, and validates register file entries and RAM locations against expected golden models.
@@ -1061,23 +1085,6 @@ wave zoom full
 ![3.3 CPU Simulation Waveform (1)](day3/waves/3_1.png)
 ![3.3 CPU Simulation Waveform (2)](day3/waves/3_2.png)
 ![3.3 CPU Simulation Waveform (3)](day3/waves/3_3.png)
-
----
-
-#### 3.2 — Machine Code Assembly Benchmark Programs
-Three hand-assembled real-world workloads loaded into instruction memory via `$readmemh` and verified automatically by `cpu_tb.v`:
-1. **Program 1 (`program1_sum.hex`) — Sum of 1 to N**:
-   - Computes: `1 + 2 + ... + 10 = 55`.
-   - Uses `ADDI`, `ADD`, and `BNE` loop counter.
-   - Verified register commit: `x1 = 55` (`0x00000037`).
-2. **Program 2 (`program2_fib.hex`) — Fibonacci Sequence Generation**:
-   - Generates the first 8 terms: `F[0]=0, F[1]=1, F[2]=1, F[3]=2, F[4]=3, F[5]=5, F[6]=8, F[7]=13`.
-   - Stores terms into RAM addresses using `SW` and tracks memory pointers.
-   - Verified memory signature: `data_mem[0..7] = {0, 1, 1, 2, 3, 5, 8, 13}`.
-3. **Program 3 (`program3_max.hex`) — Array Maximum Search**:
-   - Scans 5 unsorted array entries: `[12, 45, 23, 78, 34]`.
-   - Uses `LW` to load array elements, signed comparison `BLT` to detect larger elements, and updates the candidate register.
-   - Verified final register: `x3 = 78` (`0x0000004e`).
 
 ---
 
@@ -1147,16 +1154,17 @@ Validation of the single-cycle processor against multi-instruction algorithmic k
 | 4.1 | `forwarding_unit.v`, `riscv_5stage.v` | 5-Stage Pipeline + EX/MEM & MEM/WB Forwarding Unit | 4 PASSED |
 | 4.2 | `hazard_unit.v` | Load-Use Hazard Detection with stall bubble insertion | Verified |
 | 4.3 | `report/cpi_comparison.md` | CPI Analysis: single-cycle vs. pipeline + penalty formula | Completed |
+| 4.4 | `riscv_5stage.v` | Control Hazard Resolution: Branch Flushing & PC redirect | Verified |
 | 4.5 | `report/hazard_waveform_4_5.md` | Waveform trace of load-use stall and branch flush timing | Completed |
-| 4.6 | `riscv_5stage.v` | Branch flush on taken BEQ — flush IF+ID stages | Verified |
-| 4.7 | `riscv_5stage.v` | Hardware performance counters: cycles, instret, stalls, flushes | Verified |
+| 4.6 | `riscv_5stage.v` | Hardware performance counters: cycles, instret, stalls, flushes | Verified |
+| 4.7 | `tb/riscv_5stage_tb.v` | Integrated 5-stage pipeline self-checking verification suite | 4 PASSED |
 | 4.8 | `report/architecture_diagram_4_8.md` | Pipeline datapath diagram + hazard resolution summary table | Completed |
 
 ---
 
-#### 4.1, 4.2, 4.6 & 4.7 — Full 5-Stage Pipelined RV32I Processor Core
-A high-throughput 5-stage pipelined 32-bit RISC-V processor featuring complete data forwarding, hardware hazard detection for load-use penalties, dynamic branch flushing, and integrated cycle-accurate performance profiling counters.
-- **Files**: [`riscv_5stage.v`](day4/src/riscv_5stage.v), [`forwarding_unit.v`](day4/src/forwarding_unit.v), [`hazard_unit.v`](day4/src/hazard_unit.v), [`riscv_5stage_tb.v`](day4/tb/riscv_5stage_tb.v)
+#### 4.1 — Full 5-Stage Pipelined RV32I Processor Core & Forwarding Unit
+A high-throughput 5-stage pipelined 32-bit RISC-V processor featuring complete data forwarding to eliminate Read-After-Write (RAW) data hazards.
+- **Files**: [`riscv_5stage.v`](day4/src/riscv_5stage.v), [`forwarding_unit.v`](day4/src/forwarding_unit.v)
 
 ##### Pipeline Stages & Register Interfaces
 The processor divides instruction execution across 5 synchronized stages separated by 4 inter-stage pipeline registers:
@@ -1191,8 +1199,11 @@ Eliminates Read-After-Write (RAW) data hazards for back-to-back arithmetic instr
 - **ForwardB Logic (ALU Operand 2)**:
   - Operates identically to `ForwardA` evaluating `id_ex_rs2` to forward into the second ALU operand.
 
-##### Load-Use Hazard Detection Unit (`hazard_unit.v`)
-When an instruction reads a register loaded by an immediately preceding `LW` instruction, the data is not yet available in the EX stage. The hazard unit introduces a single-cycle stall:
+---
+
+#### 4.2 — Load-Use Hazard Detection Unit & Stall Insertion
+Dedicated hardware unit resolving the unavoidable load-use data hazard where loaded data is not available until the MEM stage.
+- **File**: [`hazard_unit.v`](day4/src/hazard_unit.v)
 - **Detection Condition**:
   ```verilog
   stall = id_ex_mem_read && ((id_ex_rd == if_id_rs1) || (id_ex_rd == if_id_rs2));
@@ -1200,21 +1211,56 @@ When an instruction reads a register loaded by an immediately preceding `LW` ins
 - **Action Taken**:
   1. Freeze Program Counter (`pc_write = 0`).
   2. Freeze `IF/ID` pipeline register (`if_id_write = 0`).
-  3. Insert a synchronous bubble (`NOP = 32'h00000013`) into `ID/EX` by zeroing all control lines.
+  3. Insert a synchronous bubble (`NOP = 32'h00000013`) into `ID/EX` by zeroing all control lines (`flush_ex = 1`).
 
-##### Control Hazard Resolution (Branch Flushing)
-- Implements **predict-not-taken** branch policy. Instructions following a branch are speculatively fetched into `IF/ID` and `ID/EX`.
-- When a branch evaluates as taken in the MEM stage (`branch_taken = 1`), the pipeline asserts `if_id_flush = 1` and `id_ex_flush = 1`, converting both speculative instructions into bubbles (`NOP`) while redirecting the PC to `branch_target`.
+---
 
-##### Hardware Performance Counters
-Integrated 32-bit hardware monitoring registers provide cycle-accurate execution metrics:
+#### 4.3 — Performance Comparison & Cycles Per Instruction (CPI) Analysis
+> 📄 **Technical Report**: Detailed CPI mathematical derivation and performance benchmarking.  
+> **Report File**: [`report/cpi_comparison.md`](report/cpi_comparison.md)  
+> Compares single-cycle vs. 5-stage pipelined processor performance:
+> - **Single-Cycle CPU**: `CPI = 1.0`, but minimum clock period `T_clk` is constrained by the critical path through all 5 stages (~10.5 ns, `F_max` ~95 MHz).
+> - **5-Stage Pipelined CPU**: Maximum stage delay is reduced to ~2.4 ns (`F_max` ~416 MHz, a 4.38x clock frequency increase).
+> - **Effective CPI Formulation**:
+>   ```
+>   CPI_pipeline = 1.0 + (Load_Use_Stalls + 2 * Branch_Flushes) / Instructions_Retired
+>   ```
+>   Measured testbench CPI = 1.43, demonstrating significant net execution speedup over single-cycle implementation.
+
+---
+
+#### 4.4 — Control Hazard Resolution & Branch Flushing Logic
+Hardware mechanism managing control hazards arising from speculative instruction fetch following conditional branches.
+- **Module**: Integrated in [`riscv_5stage.v`](day4/src/riscv_5stage.v)
+- **Branch Policy**: Predict-Not-Taken scheme with branch outcome evaluated in the EX/MEM pipeline stage.
+- **Flushing Behavior**:
+  - When `branch_taken = 1` is evaluated, two speculatively fetched instructions reside in `IF/ID` and `ID/EX`.
+  - The pipeline controller simultaneously asserts `if_id_flush = 1` and `id_ex_flush = 1`, overwriting both stage registers with `NOP` (`32'h00000013`).
+  - The Program Counter is redirected to `branch_target = ex_mem_branch_target` without executing invalid speculative instructions.
+
+---
+
+#### 4.5 — Pipeline Hazard Waveform Report
+> 📄 **Technical Report**: Detailed cycle-by-cycle pipeline timing trace under hazard conditions.  
+> **Report File**: [`report/hazard_waveform_4_5.md`](report/hazard_waveform_4_5.md)  
+> Cycle-by-cycle pipeline timing diagrams demonstrating before-and-after hazard behavior:
+> 1. **RAW Data Hazard**: Demonstrates elimination of 2 stall cycles using EX/MEM forwarding.
+> 2. **Load-Use Data Hazard**: Shows 1-cycle pipeline bubble insertion between `LW` and dependent arithmetic instruction.
+> 3. **Control Hazard (Taken Branch)**: Illustrates 2-cycle branch penalty and synchronous pipeline register flushing.
+
+---
+
+#### 4.6 — Hardware Performance Counters & Profiling
+Integrated 32-bit hardware monitoring registers provide cycle-accurate execution metrics in [`riscv_5stage.v`](day4/src/riscv_5stage.v):
 - `cycle_count`: Increments every rising clock edge.
 - `instret_count`: Increments when an instruction successfully commits in the WB stage.
 - `stall_count`: Increments on every load-use pipeline freeze cycle.
 - `flush_count`: Increments on every cycle consumed by branch misprediction flushes.
 
-##### Verification Strategy & Results
-- **Pipelined Test Suite (`riscv_5stage_tb.v`)**:
+---
+
+#### 4.7 — Full Pipeline Self-Checking Testbench Verification
+- **Test Suite**: [`riscv_5stage_tb.v`](day4/tb/riscv_5stage_tb.v)
   - Verification of EX-to-EX and MEM-to-EX arithmetic forwarding (`ADD x1, x2, x3` followed by `SUB x4, x1, x5`).
   - Verification of load-use stall insertion (`LW x1, 0(x2)` followed by `ADD x3, x1, x4`).
   - Verification of branch hazard resolution (`BEQ` taken causing 2-cycle pipeline flush).
@@ -1247,35 +1293,10 @@ wave zoom full
 
 ---
 
-#### 4.3 — Performance Comparison & Cycles Per Instruction (CPI) Analysis
-> 📄 **Technical Report**: Detailed CPI mathematical derivation and performance benchmarking.  
-> **Report File**: [`report/cpi_comparison.md`](report/cpi_comparison.md)  
-> Compares single-cycle vs. 5-stage pipelined processor performance:
-> - **Single-Cycle CPU**: `CPI = 1.0`, but minimum clock period `T_clk` is constrained by the critical path through all 5 stages (~10.5 ns, `F_max` ~95 MHz).
-> - **5-Stage Pipelined CPU**: Maximum stage delay is reduced to ~2.4 ns (`F_max` ~416 MHz, a 4.38x clock frequency increase).
-> - **Effective CPI Formulation**:
->   ```
->   CPI_pipeline = 1.0 + (Load_Use_Stalls + 2 * Branch_Flushes) / Instructions_Retired
->   ```
->   Measured testbench CPI = 1.43, demonstrating significant net execution speedup over single-cycle implementation.
-
----
-
-#### 4.5 — Pipeline Hazard Waveform Report
-> 📄 **Technical Report**: Detailed cycle-by-cycle pipeline timing trace under hazard conditions.  
-> **Report File**: [`report/hazard_waveform_4_5.md`](report/hazard_waveform_4_5.md)  
-> Cycle-by-cycle pipeline timing diagrams demonstrating before-and-after hazard behavior:
-> 1. **RAW Data Hazard**: Demonstrates elimination of 2 stall cycles using EX/MEM forwarding.
-> 2. **Load-Use Data Hazard**: Shows 1-cycle pipeline bubble insertion between `LW` and dependent arithmetic instruction.
-> 3. **Control Hazard (Taken Branch)**: Illustrates 2-cycle branch penalty and synchronous pipeline register flushing.
-
----
-
 #### 4.8 — 5-Stage Datapath Architecture Diagram & Demo Notes
 > 📄 **Technical Report**: Full architectural datapath schematic and evaluation demonstration plan.  
 > **Report File**: [`report/architecture_diagram_4_8.md`](report/architecture_diagram_4_8.md)  
 > Contains complete datapath schematics showing all 5 pipeline stages, pipeline registers (`IF/ID`, `ID/EX`, `EX/MEM`, `MEM/WB`), forwarding paths, hazard control lines, and a structured 5-minute presentation demonstration plan.
-
 ---
 
 ### Workshop Report Files (`report/`)
